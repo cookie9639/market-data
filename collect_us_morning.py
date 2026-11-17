@@ -38,7 +38,6 @@ TICKERS = [
     ("EWY", "EWY(MSCI 한국 ETF)", "한국연동"),
     ("SKHY", "SK하이닉스 ADR", "한국연동"),
     ("^KS11", "코스피(전 거래일)", "한국연동"),
-    ("^KS200", "코스피200 지수(전 거래일)", "한국연동"),
     ("000660.KS", "SK하이닉스 본주(전 거래일)", "한국연동"),
     ("005930.KS", "삼성전자(전 거래일)", "한국연동"),
     ("006400.KS", "삼성SDI(전 거래일)", "한국연동"),
@@ -81,25 +80,36 @@ TICKERS = [
 ]
 
 RATE_TICKERS = {"^TNX", "2YY=F"}
-KRX_TICKERS = {"^KS11", "^KS200", "000660.KS", "005930.KS", "006400.KS"}
+KRX_TICKERS = {"^KS11", "000660.KS", "005930.KS", "006400.KS"}
 ADR_RATIO = 10  # 보통주 1주 = ADR 10개
 
 
-def fetch(ticker):
-    """최근 일봉에서 마지막 종가와 그 전 종가를 가져온다."""
+def get_history(ticker):
     try:
         hist = yf.Ticker(ticker).history(period="15d", interval="1d", auto_adjust=False)
     except Exception as e:  # 네트워크·티커 오류
-        return {"ok": False, "error": str(e)[:200]}
+        return None, str(e)[:200]
     hist = hist.dropna(subset=["Close"])
     if len(hist) < 2:
-        return {"ok": False, "error": "데이터 부족"}
-    last, prev = hist.iloc[-1], hist.iloc[-2]
+        return None, "데이터 부족"
+    return hist, None
+
+
+def summarize(ticker, hist, on_or_before=None):
+    """on_or_before 날짜(YYYY-MM-DD) 이하의 마지막 일봉과 그 전 일봉으로 요약."""
+    dates = [d.strftime("%Y-%m-%d") for d in hist.index]
+    pos = len(hist) - 1
+    if on_or_before:
+        while pos >= 0 and dates[pos] > on_or_before:
+            pos -= 1
+    if pos < 1:
+        return {"ok": False, "error": f"{on_or_before} 이전 데이터 없음"}
+    last, prev = hist.iloc[pos], hist.iloc[pos - 1]
     close, prev_close = float(last["Close"]), float(prev["Close"])
     out = {
         "ok": True,
-        "date": hist.index[-1].strftime("%Y-%m-%d"),
-        "prev_date": hist.index[-2].strftime("%Y-%m-%d"),
+        "date": dates[pos],
+        "prev_date": dates[pos - 1],
         "close": round(close, 4),
         "prev_close": round(prev_close, 4),
         "high": round(float(last["High"]), 4),
@@ -109,21 +119,37 @@ def fetch(ticker):
         out["change_bp"] = round((close - prev_close) * 100, 1)
     else:
         out["change_pct"] = round((close / prev_close - 1) * 100, 2)
-    if len(hist) >= 6:
-        out["change_5d_pct"] = round((close / float(hist.iloc[-6]["Close"]) - 1) * 100, 2)
+    if pos >= 5:
+        out["change_5d_pct"] = round((close / float(hist.iloc[pos - 5]["Close"]) - 1) * 100, 2)
     return out
+
+
+# 24시간 거래되는 것(실행 시각 값을 그대로 씀)
+ROUND_THE_CLOCK = {"KRW=X", "JPY=X", "DX-Y.NYB", "CL=F", "BZ=F", "2YY=F"}
 
 
 def main():
     now_kst = datetime.now(KST)
+    hists = {t: get_history(t) for t, _, _ in TICKERS}
+
+    # 기준이 되는 미국 마감일 = S&P500 마지막 일봉 날짜
+    us_date = None
+    if hists["^GSPC"][0] is not None:
+        us_date = hists["^GSPC"][0].index[-1].strftime("%Y-%m-%d")
+
     items = {}
     for ticker, name, group in TICKERS:
-        r = fetch(ticker)
+        hist, err = hists[ticker]
+        if hist is None:
+            r = {"ok": False, "error": err}
+        elif ticker in ROUND_THE_CLOCK:
+            r = summarize(ticker, hist)
+        else:
+            # 미국 종목은 미국 마감일 봉, 한국 종목은 그날 이하 마지막 KRX 봉(ADR 마감 직전 KRX 종가)
+            r = summarize(ticker, hist, on_or_before=us_date)
         r.update({"name": name, "group": group})
         items[ticker] = r
 
-    # 기준이 되는 미국 마감일 = S&P500 마지막 일봉 날짜
-    us_date = items["^GSPC"].get("date")
     krx_date = items["000660.KS"].get("date")
 
     # 날짜가 기준과 다른 미국 종목 표시(오래된 값 걸러내기용)
@@ -131,7 +157,7 @@ def main():
     for ticker, r in items.items():
         if not r.get("ok"):
             continue
-        if ticker in KRX_TICKERS or ticker in ("KRW=X", "JPY=X", "DX-Y.NYB", "CL=F", "BZ=F", "2YY=F"):
+        if ticker in KRX_TICKERS or ticker in ROUND_THE_CLOCK:
             continue
         if us_date and r["date"] != us_date:
             r["stale"] = True
@@ -176,7 +202,7 @@ def main():
         "items": items,
         "notes": [
             "금리(^TNX, 2YY=F)의 close는 수익률(%)이고 change_bp는 bp 변화",
-            "한국 종목(.KS, ^KS11, ^KS200)은 전 거래일 KRX 종가",
+            "한국 종목(.KS, ^KS11)은 미국 마감일 당일(또는 그 이전) KRX 종가 = ADR 비교 기준",
             "환율·유가·2년물은 24시간 시세라 실행 시각 값",
             "stale=true 종목은 날짜가 미국 마감일과 달라 쓰지 말 것",
         ],
