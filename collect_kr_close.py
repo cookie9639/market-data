@@ -218,29 +218,30 @@ def naver_flows(today):
     res["program_eok"] = prog
     res["breadth"] = breadth
 
-    # 3) 종목별 외국인·기관 순매매(주) → 종가로 억 원 환산(근사)
+    # 3) 종목별 외국인·기관·개인 순매매(주): 네이버 모바일 trend API → 종가로 억 원 환산(근사)
     stocks = {}
     for code, name in FLOW_STOCKS.items():
         try:
-            r = _get(f"https://finance.naver.com/item/frgn.naver?code={code}", debug, f"frgn_{code}")
-            if r is None:
+            r = requests.get(f"https://m.stock.naver.com/api/stock/{code}/trend?pageSize=5", headers=NAVER_HEADERS, timeout=20)
+            debug[f"trend_{code}"] = r.status_code
+            if r.status_code != 200:
                 continue
-            rows = _date_rows(r.text, yymmdd)
+            js = r.json()
+            rows = js if isinstance(js, list) else (js.get("trends") or js.get("list") or [])
             if rows:
-                row = rows[0]
-                # 날짜, 종가, 전일비, 등락률, 거래량, 기관 순매매량, 외국인 순매매량, 보유주수, 보유율
-                close = _num(row[1])
-                inst_sh, frgn_sh = _num(row[5]), _num(row[6])
-                stocks[name] = {
-                    "기관_순매매_주": inst_sh,
-                    "외국인_순매매_주": frgn_sh,
-                    "기관_억_근사": r2(inst_sh * close / EOK, 0) if inst_sh is not None and close else None,
-                    "외국인_억_근사": r2(frgn_sh * close / EOK, 0) if frgn_sh is not None and close else None,
-                    "외국인_보유율": _num(row[8]) if len(row) > 8 else None,
-                }
-                debug[f"frgn_{code}_raw"] = row
-            else:
-                errors.append(f"{name} 외국인·기관: 오늘 날짜 행 없음(장 마감 직후엔 늦게 올라올 수 있음)")
+                debug[f"trend_{code}_sample"] = rows[0]
+            row = next((x for x in rows if str(x.get("bizdate", "")).replace("-", "")[:8] == ymd), None)
+            if not row:
+                errors.append(f"{name} 외국인·기관: 오늘 날짜 없음({rows[0].get('bizdate') if rows else '빈 응답'})")
+                continue
+            close = _num(row.get("closePrice"))
+            out = {}
+            for label, key in (("외국인", "foreignerPureBuyQuant"), ("기관", "organPureBuyQuant"), ("개인", "individualPureBuyQuant")):
+                q = _num(row.get(key))
+                out[f"{label}_순매매_주"] = q
+                out[f"{label}_억_근사"] = r2(q * close / EOK, 0) if q is not None and close else None
+            out["외국인_보유율"] = _num(row.get("foreignerHoldRatio"))
+            stocks[name] = out
         except Exception as e:
             errors.append(f"{name} 외국인·기관: {str(e)[:150]}")
     res["stock_net_buy"] = stocks
@@ -274,35 +275,45 @@ def naver_flows(today):
         idx[key] = val
     res["index"] = idx
 
-    # 5) 거래대금 상위(네이버 거래량 상위 100에서 거래대금 순으로 다시 정렬) — 거래대금 단위 백만원 → 억
+    # 5) 거래대금 상위: 네이버 모바일 순위 API 여러 개(거래량 상위·상승·시총 상위)를 합쳐 거래대금 순으로 정렬
     tops = {}
-    for mkt, sosok in (("KOSPI", "0"), ("KOSDAQ", "1")):
-        try:
-            import io
-            import pandas as pd
-            r = _get(f"https://finance.naver.com/sise/sise_quant.naver?sosok={sosok}", debug, f"quant_{mkt}")
-            if r is None:
-                continue
-            tables = [t for t in pd.read_html(io.StringIO(r.text)) if "거래대금" in [str(c) for c in t.columns]]
-            if not tables:
-                errors.append(f"{mkt} 거래대금 표 없음")
-                continue
-            t = tables[0].dropna(subset=["종목명"])
-            items = []
-            for _, row in t.iterrows():
-                tv = _num(row["거래대금"])
-                if tv is None:
+    for mkt in ("KOSPI", "KOSDAQ"):
+        pool = {}
+        for kind in ("quantTop", "up", "marketValue"):
+            url = f"https://m.stock.naver.com/api/stocks/{kind}/{mkt}?page=1&pageSize=100"
+            try:
+                r = requests.get(url, headers=NAVER_HEADERS, timeout=20)
+                debug[f"rank_{kind}_{mkt}"] = r.status_code
+                if r.status_code != 200:
                     continue
-                items.append({
-                    "name": str(row["종목명"]),
-                    "close": _num(row["현재가"]),
-                    "change_pct": _num(row["등락률"]),
-                    "trading_value_eok": r2(tv / 100, 0),
-                })
-            items.sort(key=lambda x: x["trading_value_eok"] or 0, reverse=True)
+                js = r.json()
+                rows = js.get("stocks") if isinstance(js, dict) else js
+                if not rows:
+                    continue
+                if f"rank_sample_{mkt}" not in debug:
+                    debug[f"rank_sample_{mkt}"] = rows[0]
+                for x in rows:
+                    code = x.get("itemCode")
+                    if code:
+                        pool[code] = x
+            except Exception as e:
+                errors.append(f"{mkt} {kind}: {str(e)[:120]}")
+        items = []
+        for code, x in pool.items():
+            tv = _num(x.get("accumulatedTradingValue"))
+            items.append({
+                "code": code,
+                "name": x.get("stockName"),
+                "close": _num(x.get("closePrice")),
+                "change_pct": _num(x.get("fluctuationsRatio")) if (x.get("compareToPreviousPrice") or {}).get("name") != "FALLING" else -abs(_num(x.get("fluctuationsRatio")) or 0),
+                "trading_value_raw": tv,
+                "trading_value_text": x.get("accumulatedTradingValueKrwHangeul"),
+            })
+        items.sort(key=lambda z: z["trading_value_raw"] or 0, reverse=True)
+        if items:
             tops[mkt] = items[:15]
-        except Exception as e:
-            errors.append(f"{mkt} 거래대금 상위: {str(e)[:150]}")
+        else:
+            errors.append(f"{mkt} 거래대금 상위: 순위 API 응답 없음")
     res["top_trading_value"] = tops
 
     res["ok"] = bool(markets or prog or stocks or tops or any(v.get("close") for v in idx.values()))
@@ -360,8 +371,8 @@ def main():
             "kospi_to_k200_index_ratio = 코스피 ÷ 코스피200 지수, kospi_to_k200_futures_ratio = 코스피 ÷ K200 선물(최근월물, 네이버)",
             "krx.market_net_buy_eok는 개인·외국인·기관계(억 원, 네이버 모바일). program_eok는 차익·비차익·전체 순매수(억 원). breadth는 상승·하락 종목 수",
             "krx(네이버) market_net_buy_eok·program_eok 단위는 억 원(순매수). 시장 기타법인 포함",
-            "stock_net_buy는 네이버 종목별 외국인·기관 순매매(주)와 종가로 환산한 억 원 근사. 종목별 기타법인(자사주)은 없음",
-            "top_trading_value는 네이버 거래량 상위 100을 거래대금 순으로 다시 정렬한 것(거래대금 상위와 거의 같지만 완전히 같지는 않을 수 있음)",
+            "stock_net_buy는 네이버 모바일 종목별 외국인·기관·개인 순매매(주)와 종가로 환산한 억 원 근사. 종목별 기타법인(자사주)은 없음",
+            "top_trading_value는 네이버 모바일 거래량 상위·상승·시총 상위를 합쳐 거래대금 순으로 정렬한 것. trading_value_raw 단위는 네이버 표기(백만 원으로 추정), trading_value_text가 있으면 그 한글 표기가 정확함",
             "원/달러는 24시간 시세라 실행 시각 값(서울 종가 아님)",
             "외국인 선물 수급은 수집하지 않음(검색으로 확인)",
         ],
