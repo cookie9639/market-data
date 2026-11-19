@@ -163,43 +163,42 @@ def naver_flows(today):
     yymmdd = today[2:].replace("-", ".")
     ymd = today.replace("-", "")
 
-    # 1) 시장별 투자자 순매수(억 원): 개인, 외국인, 기관계, 금융투자, 보험, 투신, 은행, 기타금융, 연기금등, 기타법인
-    cols = ["개인", "외국인", "기관계", "금융투자", "보험", "투신", "은행", "기타금융", "연기금등", "기타법인"]
-    markets = {}
-    for mkt, sosok in (("KOSPI", "01"), ("KOSDAQ", "02")):
+    # 1)·2) 시장별 투자자 순매수·프로그램: 네이버 모바일 API(구 PC 페이지는 410으로 닫힘)
+    import requests
+    markets, prog = {}, {}
+    for mkt in ("KOSPI", "KOSDAQ"):
+        url = f"https://m.stock.naver.com/api/index/{mkt}/integration"
         try:
-            r = _get(f"https://finance.naver.com/sise/investorDealTrendDay.naver?bizdate={ymd}&sosok={sosok}", debug, f"investor_{mkt}")
-            if r is None:
+            r = requests.get(url, headers=NAVER_HEADERS, timeout=20)
+            debug[f"integration_{mkt}"] = r.status_code
+            if r.status_code != 200:
                 continue
-            rows = _date_rows(r.text, yymmdd)
-            if rows:
-                vals = [_num(v) for v in rows[0][1:]]
-                markets[mkt] = dict(zip(cols, vals))
-                debug[f"investor_{mkt}_raw"] = rows[0]
+            js = r.json()
+            debug[f"integration_{mkt}_keys"] = list(js.keys()) if isinstance(js, dict) else str(type(js))
+            # 투자자 동향
+            deals = js.get("dealTrendInfos") or []
+            if deals:
+                debug[f"integration_{mkt}_deal_sample"] = deals[0]
+                row = next((d for d in deals if str(d.get("bizdate", "")).replace("-", "")[:8] == ymd), None)
+                if row:
+                    markets[mkt] = {
+                        "개인": _num(row.get("personalValue")),
+                        "외국인": _num(row.get("foreignValue")),
+                        "기관계": _num(row.get("institutionalValue")),
+                        "단위": "억 원(네이버 표기 그대로)",
+                    }
+                else:
+                    errors.append(f"{mkt} 투자자: 오늘 날짜 없음(가장 최근 {deals[0].get('bizdate')})")
             else:
-                errors.append(f"{mkt} 투자자: 오늘 날짜 행 없음")
+                errors.append(f"{mkt} 투자자: dealTrendInfos 없음")
+            # 프로그램(키 이름이 확실하지 않아 program이 들어간 키를 모두 저장)
+            for key, val in js.items():
+                if "program" in key.lower():
+                    prog.setdefault(mkt, {})[key] = val if not isinstance(val, list) else val[:2]
         except Exception as e:
-            errors.append(f"{mkt} 투자자: {str(e)[:150]}")
+            errors.append(f"{mkt} integration: {str(e)[:150]}")
     res["market_net_buy_eok"] = markets
-
-    # 2) 프로그램 매매(억 원): 차익 매수·매도·순매수, 비차익 매수·매도·순매수, 전체 매수·매도·순매수
-    prog = {}
-    pcols = ["차익_매수", "차익_매도", "차익_순매수", "비차익_매수", "비차익_매도", "비차익_순매수", "전체_매수", "전체_매도", "전체_순매수"]
-    for mkt, sosok in (("KOSPI", "01"), ("KOSDAQ", "02")):
-        try:
-            r = _get(f"https://finance.naver.com/sise/programDealTrendDay.naver?bizdate={ymd}&sosok={sosok}", debug, f"program_{mkt}")
-            if r is None:
-                continue
-            rows = _date_rows(r.text, yymmdd)
-            if rows:
-                vals = [_num(v) for v in rows[0][1:]]
-                prog[mkt] = dict(zip(pcols, vals))
-                debug[f"program_{mkt}_raw"] = rows[0]
-            else:
-                errors.append(f"{mkt} 프로그램: 오늘 날짜 행 없음")
-        except Exception as e:
-            errors.append(f"{mkt} 프로그램: {str(e)[:150]}")
-    res["program_eok"] = prog
+    res["program_raw"] = prog
 
     # 3) 종목별 외국인·기관 순매매(주) → 종가로 억 원 환산(근사)
     stocks = {}
@@ -228,22 +227,33 @@ def naver_flows(today):
             errors.append(f"{name} 외국인·기관: {str(e)[:150]}")
     res["stock_net_buy"] = stocks
 
-    # 4) 코스피200 지수와 K200 선물(최근월물) 현재가(=장 마감 후 종가)
+    # 4) 코스피200 지수와 K200 선물(최근월물): 모바일 API 우선, 안 되면 PC 페이지
+    import re
     idx = {}
     for key, code in (("kospi200", "KPI200"), ("k200_futures", "FUT")):
+        val = {"close": None}
         try:
-            r = _get(f"https://finance.naver.com/sise/sise_index.naver?code={code}", debug, f"index_{code}")
-            if r is None:
-                continue
-            import re
-            m = re.search(r'id="now_value"[^>]*>([\d,\.]+)<', r.text)
-            c = re.search(r'id="change_value_and_rate"[^>]*>(.*?)</span>\s*</em>', r.text, re.S)
-            idx[key] = {
-                "close": _num(m.group(1)) if m else None,
-                "change_raw": re.sub(r"<[^>]+>|\s+", " ", c.group(1)).strip() if c else None,
-            }
+            r = requests.get(f"https://m.stock.naver.com/api/index/{code}/basic", headers=NAVER_HEADERS, timeout=20)
+            debug[f"mbasic_{code}"] = r.status_code
+            if r.status_code == 200:
+                js = r.json()
+                debug[f"mbasic_{code}_sample"] = {k: js.get(k) for k in list(js)[:15]} if isinstance(js, dict) else None
+                val = {"close": _num(js.get("closePrice")), "change": _num(js.get("compareToPreviousClosePrice")),
+                       "change_pct": _num(js.get("fluctuationsRatio")), "time": js.get("localTradedAt")}
         except Exception as e:
-            errors.append(f"{key}: {str(e)[:150]}")
+            errors.append(f"{key} 모바일: {str(e)[:150]}")
+        if val.get("close") is None:
+            try:
+                r = _get(f"https://finance.naver.com/sise/sise_index.naver?code={code}", debug, f"index_{code}")
+                if r is not None:
+                    m = re.search(r'id="now_value"[^>]*>\s*([\d,\.]+)', r.text)
+                    val["close"] = _num(m.group(1)) if m else None
+                    if not m:
+                        i = r.text.find("now_value")
+                        debug[f"index_{code}_snippet"] = r.text[max(0, i - 100): i + 300] if i >= 0 else r.text[:300]
+            except Exception as e:
+                errors.append(f"{key}: {str(e)[:150]}")
+        idx[key] = val
     res["index"] = idx
 
     # 5) 거래대금 상위(네이버 거래량 상위 100에서 거래대금 순으로 다시 정렬) — 거래대금 단위 백만원 → 억
@@ -277,7 +287,7 @@ def naver_flows(today):
             errors.append(f"{mkt} 거래대금 상위: {str(e)[:150]}")
     res["top_trading_value"] = tops
 
-    res["ok"] = bool(markets or prog or stocks or tops)
+    res["ok"] = bool(markets or prog or stocks or tops or any(v.get("close") for v in idx.values()))
     res["errors"] = errors
     res["debug_http"] = debug
     return res
@@ -347,7 +357,7 @@ def main():
         hy = items["000660.KS"]
         mk = flows.get("market_net_buy_eok", {}).get("KOSPI", {}) if flows.get("ok") else {}
         hyf = flows.get("stock_net_buy", {}).get("SK하이닉스", {}) if flows.get("ok") else {}
-        pg = flows.get("program_eok", {}).get("KOSPI", {}) if flows.get("ok") else {}
+        pg = {}
         row = {
             "date": today,
             "kospi": kospi.get("close"),
