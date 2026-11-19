@@ -1,5 +1,5 @@
 {
- "generated_at_kst": "2026-11-19 21:52",
+ "generated_at_kst": "2026-11-19 21:57",
  "krx_session_date": "2026-11-19",
  "market_open_today": true,
  "kospi_to_k200_index_ratio": 6.4258,
@@ -86,28 +86,28 @@
    "open": 1332.54,
    "high": 1332.85,
    "low": 1326.48,
-   "close": 1326.76,
+   "close": 1327.1801,
    "prev_close": 1333.01,
-   "change_pct": -0.47,
+   "change_pct": -0.44,
    "volume": 0,
-   "change_5d_pct": -0.71,
+   "change_5d_pct": -0.68,
    "ma": {
-    "ma5": 1332.49,
-    "vs_ma5_pct": -0.43,
-    "ma10": 1340.35,
-    "vs_ma10_pct": -1.01,
-    "ma20": 1336.72,
-    "vs_ma20_pct": -0.75,
+    "ma5": 1332.58,
+    "vs_ma5_pct": -0.41,
+    "ma10": 1340.39,
+    "vs_ma10_pct": -0.99,
+    "ma20": 1336.74,
+    "vs_ma20_pct": -0.72,
     "ma60": 1346.8,
-    "vs_ma60_pct": -1.49,
+    "vs_ma60_pct": -1.46,
     "ma120": 1411.94,
-    "vs_ma120_pct": -6.03
+    "vs_ma120_pct": -6.0
    },
    "ma_next_day_if_flat": {
-    "ma5": 1331.09,
-    "ma10": 1337.39,
-    "ma20": 1336.76,
-    "ma60": 1345.9,
+    "ma5": 1331.26,
+    "ma10": 1337.48,
+    "ma20": 1336.8,
+    "ma60": 1345.92,
     "ma120": 1410.22
    },
    "is_today": true,
@@ -770,7 +770,35 @@
     "steadyCount": 80.0
    }
   },
-  "stock_net_buy": {},
+  "stock_net_buy": {
+   "삼성전자": {
+    "외국인_순매매_주": -561332.0,
+    "외국인_억_근사": -1108.0,
+    "기관_순매매_주": -186318.0,
+    "기관_억_근사": -368.0,
+    "개인_순매매_주": 735721.0,
+    "개인_억_근사": 1452.0,
+    "외국인_보유율": 45.9
+   },
+   "SK하이닉스": {
+    "외국인_순매매_주": -49813.0,
+    "외국인_억_근사": -593.0,
+    "기관_순매매_주": -125618.0,
+    "기관_억_근사": -1495.0,
+    "개인_순매매_주": -173110.0,
+    "개인_억_근사": -2060.0,
+    "외국인_보유율": 49.4
+   },
+   "삼성SDI": {
+    "외국인_순매매_주": -32527.0,
+    "외국인_억_근사": -140.0,
+    "기관_순매매_주": -46095.0,
+    "기관_억_근사": -198.0,
+    "개인_순매매_주": 78813.0,
+    "개인_억_근사": 339.0,
+    "외국인_보유율": 24.19
+   }
+  },
   "index": {
    "kospi200": {
     "close": 799.57,
@@ -785,14 +813,253 @@
     "time": "2026-11-19T16:34:59+09:00"
    }
   },
-  "top_trading_value": {},
-  "errors": [
-   "삼성전자 외국인·기관: No tables found",
-   "SK하이닉스 외국인·기관: No tables found",
-   "삼성SDI 외국인·기관: No tables found",
-   "KOSPI 거래대금 상위: No tables found",
-   "KOSDAQ 거래대금 상위: No tables found"
-  ],
+  "top_trading_value": {
+   "KOSPI": [
+    {
+     "code": "000660",
+     "name": "SK하이닉스",
+     "close": 1190000.0,
+     "change_pct": 4.02,
+     "trading_value_raw": 3032729.0,
+     "trading_value_text": "3조 327억원"
+    },
+    {
+     "code": "005930",
+     "name": "삼성전자",
+     "close": 197400.0,
+     "change_pct": 1.39,
+     "trading_value_raw": 2484417.0,
+     "trading_value_text": "2조 4,844억원"
+    },
+    {
+     "code": "069500",
+     "name": "KODEX 200",
+     "close": 80630.0,
+     "change_pct": 1.55,
+     "trading_value_raw": 1464604.0,
+     "trading_value_text": "1조 4,646억원"
+    },
+    {
+     "code": "114800",
+     "name": "KODEX 인버스",
+     "close": 1309.0,
+     "change_pct": -1.5,
+     "trading_value_raw": 1278590.0,
+     "trading_value_text": "1조 2,786억원"
+    },
+    {
+     "code": "122630",
+     "name": "KODEX 레버리지",
+     "close": 56035.0,
+     "change_pct": 3.01,
+     "trading_value_raw": 1225272.0,
+     "trading_value_text": "1조 2,253억원"
+    },
+    {
+     "code": "252670",
+     "name": "KODEX 200선물인버스2X",
+     "close": 119.0,
+     "change_pct": -2.46,
+     "trading_value_raw": 1128907.0,
+     "trading_value_text": "1조 1,289억원"
+    },
+    {
+     "code": "009150",
+     "name": "삼성전기",
+     "close": 883000.0,
+     "change_pct": 9.01,
+     "trading_value_raw": 806310.0,
+     "trading_value_text": "8,063억원"
+    },
+    {
+     "code": "360750",
+     "name": "TIGER 미국S&P500",
+     "close": 24400.0,
+     "change_pct": 0.39,
+     "trading_value_raw": 585694.0,
+     "trading_value_text": "5,857억원"
+    },
+    {
+     "code": "005935",
+     "name": "삼성전자우",
+     "close": 158500.0,
+     "change_pct": 0.32,
+     "trading_value_raw": 549248.0,
+     "trading_value_text": "5,492억원"
+    },
+    {
+     "code": "233740",
+     "name": "KODEX 코스닥150레버리지",
+     "close": 4190.0,
+     "change_pct": 8.97,
+     "trading_value_raw": 500064.0,
+     "trading_value_text": "5,001억원"
+    },
+    {
+     "code": "102110",
+     "name": "TIGER 200",
+     "close": 80295.0,
+     "change_pct": 1.39,
+     "trading_value_raw": 493766.0,
+     "trading_value_text": "4,938억원"
+    },
+    {
+     "code": "133690",
+     "name": "TIGER 미국나스닥100",
+     "close": 162425.0,
+     "change_pct": 1.47,
+     "trading_value_raw": 478832.0,
+     "trading_value_text": "4,788억원"
+    },
+    {
+     "code": "379800",
+     "name": "KODEX 미국S&P500",
+     "close": 22120.0,
+     "change_pct": 0.41,
+     "trading_value_raw": 416738.0,
+     "trading_value_text": "4,167억원"
+    },
+    {
+     "code": "379810",
+     "name": "KODEX 미국나스닥100",
+     "close": 24270.0,
+     "change_pct": 1.57,
+     "trading_value_raw": 406929.0,
+     "trading_value_text": "4,069억원"
+    },
+    {
+     "code": "459580",
+     "name": "KODEX CD금리액티브(합성)",
+     "close": 1075455.0,
+     "change_pct": 0.03,
+     "trading_value_raw": 374990.0,
+     "trading_value_text": "3,750억원"
+    }
+   ],
+   "KOSDAQ": [
+    {
+     "code": "036930",
+     "name": "주성엔지니어링",
+     "close": 159300.0,
+     "change_pct": 5.85,
+     "trading_value_raw": 178830.0,
+     "trading_value_text": "1,788억원"
+    },
+    {
+     "code": "471800",
+     "name": "에이엘로봇",
+     "close": 13490.0,
+     "change_pct": 1.28,
+     "trading_value_raw": 162642.0,
+     "trading_value_text": "1,626억원"
+    },
+    {
+     "code": "030530",
+     "name": "원익홀딩스",
+     "close": 34950.0,
+     "change_pct": -1.13,
+     "trading_value_raw": 158059.0,
+     "trading_value_text": "1,581억원"
+    },
+    {
+     "code": "010170",
+     "name": "대한광통신",
+     "close": 14450.0,
+     "change_pct": 9.47,
+     "trading_value_raw": 133742.0,
+     "trading_value_text": "1,337억원"
+    },
+    {
+     "code": "041510",
+     "name": "에스엠",
+     "close": 93500.0,
+     "change_pct": 6.37,
+     "trading_value_raw": 129619.0,
+     "trading_value_text": "1,296억원"
+    },
+    {
+     "code": "261780",
+     "name": "아리바이오랩",
+     "close": 5650.0,
+     "change_pct": 6.81,
+     "trading_value_raw": 126275.0,
+     "trading_value_text": "1,263억원"
+    },
+    {
+     "code": "035900",
+     "name": "JYP Ent.",
+     "close": 47100.0,
+     "change_pct": 0.75,
+     "trading_value_raw": 122122.0,
+     "trading_value_text": "1,221억원"
+    },
+    {
+     "code": "263860",
+     "name": "지니언스",
+     "close": 38550.0,
+     "change_pct": 0.26,
+     "trading_value_raw": 106766.0,
+     "trading_value_text": "1,068억원"
+    },
+    {
+     "code": "053800",
+     "name": "안랩",
+     "close": 116800.0,
+     "change_pct": 11.45,
+     "trading_value_raw": 103531.0,
+     "trading_value_text": "1,035억원"
+    },
+    {
+     "code": "0035S0",
+     "name": "빅웨이브로보틱스",
+     "close": 17760.0,
+     "change_pct": 3.92,
+     "trading_value_raw": 102092.0,
+     "trading_value_text": "1,021억원"
+    },
+    {
+     "code": "222800",
+     "name": "심텍",
+     "close": 112200.0,
+     "change_pct": 4.28,
+     "trading_value_raw": 99116.0,
+     "trading_value_text": "991억원"
+    },
+    {
+     "code": "403870",
+     "name": "HPSP",
+     "close": 42400.0,
+     "change_pct": 12.02,
+     "trading_value_raw": 96365.0,
+     "trading_value_text": "964억원"
+    },
+    {
+     "code": "277810",
+     "name": "레인보우로보틱스",
+     "close": 422500.0,
+     "change_pct": 3.81,
+     "trading_value_raw": 85319.0,
+     "trading_value_text": "853억원"
+    },
+    {
+     "code": "108490",
+     "name": "로보티즈",
+     "close": 251000.0,
+     "change_pct": 4.8,
+     "trading_value_raw": 67142.0,
+     "trading_value_text": "671억원"
+    },
+    {
+     "code": "196170",
+     "name": "알테오젠",
+     "close": 173300.0,
+     "change_pct": 1.4,
+     "trading_value_raw": 60611.0,
+     "trading_value_text": "606억원"
+    }
+   ]
+  },
+  "errors": [],
   "debug_http": {
    "integration_KOSPI": 200,
    "integration_KOSPI_keys": [
@@ -834,9 +1101,57 @@
     "foreignValue": "-2,162",
     "institutionalValue": "+2,257"
    },
-   "frgn_005930": 200,
-   "frgn_000660": 200,
-   "frgn_006400": 200,
+   "trend_005930": 200,
+   "trend_005930_sample": {
+    "itemCode": "005930",
+    "bizdate": "20261119",
+    "foreignerPureBuyQuant": "-561,332",
+    "foreignerHoldRatio": "45.90%",
+    "organPureBuyQuant": "-186,318",
+    "individualPureBuyQuant": "+735,721",
+    "closePrice": "197,400",
+    "compareToPreviousClosePrice": "2,700",
+    "compareToPreviousPrice": {
+     "code": "2",
+     "text": "상승",
+     "name": "RISING"
+    },
+    "accumulatedTradingVolume": "12,813,862"
+   },
+   "trend_000660": 200,
+   "trend_000660_sample": {
+    "itemCode": "000660",
+    "bizdate": "20261119",
+    "foreignerPureBuyQuant": "-49,813",
+    "foreignerHoldRatio": "49.40%",
+    "organPureBuyQuant": "-125,618",
+    "individualPureBuyQuant": "-173,110",
+    "closePrice": "1,190,000",
+    "compareToPreviousClosePrice": "46,000",
+    "compareToPreviousPrice": {
+     "code": "2",
+     "text": "상승",
+     "name": "RISING"
+    },
+    "accumulatedTradingVolume": "2,633,659"
+   },
+   "trend_006400": 200,
+   "trend_006400_sample": {
+    "itemCode": "006400",
+    "bizdate": "20261119",
+    "foreignerPureBuyQuant": "-32,527",
+    "foreignerHoldRatio": "24.19%",
+    "organPureBuyQuant": "-46,095",
+    "individualPureBuyQuant": "+78,813",
+    "closePrice": "430,000",
+    "compareToPreviousClosePrice": "-4,500",
+    "compareToPreviousPrice": {
+     "code": "5",
+     "text": "하락",
+     "name": "FALLING"
+    },
+    "accumulatedTradingVolume": "634,383"
+   },
    "mbasic_KPI200": 200,
    "mbasic_KPI200_sample": {
     "stockEndType": "index",
@@ -872,17 +1187,17 @@
      "name": "KOSPI"
     },
     "imageCharts": {
-     "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up_tablet.png",
-     "day": "https://financial-vn.pstatic.net/chart/mobile/day/KPI200_end.png",
-     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/KPI200_end.png",
+     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/KPI200_end.png",
      "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/KPI200_end.png",
-     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/KPI200_end.png",
-     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_transparent.png",
      "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/KPI200_end.png",
-     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/KPI200_end.png",
-     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up.png",
      "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/KPI200_end.png",
-     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/KPI200_end.png"
+     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/KPI200_end.png",
+     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up.png",
+     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/KPI200_end.png",
+     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/KPI200_end.png",
+     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_transparent.png",
+     "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up_tablet.png",
+     "day": "https://financial-vn.pstatic.net/chart/mobile/day/KPI200_end.png"
     }
    },
    "mbasic_FUT": 200,
@@ -920,21 +1235,141 @@
      "name": "KOSPI"
     },
     "imageCharts": {
-     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/FUT_end.png",
-     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/FUT_end.png",
-     "day": "https://financial-vn.pstatic.net/chart/mobile/day/FUT_end.png",
-     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_transparent.png",
      "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up_tablet.png",
-     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/FUT_end.png",
      "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up.png",
+     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_transparent.png",
+     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/FUT_end.png",
+     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/FUT_end.png",
      "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/FUT_end.png",
-     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/FUT_end.png",
+     "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/FUT_end.png",
      "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/FUT_end.png",
-     "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/FUT_end.png"
+     "day": "https://financial-vn.pstatic.net/chart/mobile/day/FUT_end.png",
+     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/FUT_end.png",
+     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/FUT_end.png"
     }
    },
-   "quant_KOSPI": 200,
-   "quant_KOSDAQ": 200
+   "rank_quantTop_KOSPI": 200,
+   "rank_sample_KOSPI": {
+    "stockType": "domestic",
+    "stockEndType": "etf",
+    "itemCode": "252670",
+    "reutersCode": "252670",
+    "stockName": "KODEX 200선물인버스2X",
+    "sosok": "0",
+    "closePrice": "119",
+    "compareToPreviousClosePrice": "-3",
+    "compareToPreviousPrice": {
+     "code": "5",
+     "text": "하락",
+     "name": "FALLING"
+    },
+    "fluctuationsRatio": "-2.46",
+    "accumulatedTradingVolume": "9,133,879,850",
+    "accumulatedTradingValue": "1,128,907",
+    "accumulatedTradingValueKrwHangeul": "1조 1,289억원",
+    "localTradedAt": "2026-11-19T20:20:21+09:00",
+    "marketValue": "8,571",
+    "marketValueHangeul": "8,571억원",
+    "nav": "N/A",
+    "threeMonthEarningRate": "N/A",
+    "marketStatus": "CLOSE",
+    "tradeStopType": {
+     "code": "1",
+     "text": "운영.Trading",
+     "name": "TRADING"
+    },
+    "tradableStatus": "tradable",
+    "tradableStatusCode": "ok",
+    "tradableStatusUpdatedAt": "2026-11-19T08:02:33.8+09:00",
+    "stockExchangeType": {
+     "code": "KS",
+     "zoneId": "Asia/Seoul",
+     "nationType": "KOR",
+     "delayTime": 0,
+     "startTime": "0900",
+     "endTime": "1530",
+     "closePriceSendTime": "1630",
+     "nameKor": "코스피",
+     "nameEng": "KOSPI",
+     "stockType": "domestic",
+     "nationCode": "KOR",
+     "nationName": "대한민국",
+     "name": "KOSPI"
+    },
+    "endUrl": "https://m.stock.naver.com/domestic/stock/252670",
+    "newPcUrl": "https://stock.naver.com/domestic/stock/252670",
+    "stockMiniImageChart": "https://financial-vn.pstatic.net/chart/mobile/mini/krx/252670_interest.png",
+    "itemLogoUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/etf/StockKRETFKODEX.svg",
+    "itemLogoPngUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/png/etf/StockKRETFKODEX.png",
+    "closePriceRaw": "119",
+    "compareToPreviousClosePriceRaw": "-3",
+    "accumulatedTradingVolumeRaw": "9133879850",
+    "accumulatedTradingValueRaw": "1128907000000",
+    "marketValueRaw": "857097500000"
+   },
+   "rank_up_KOSPI": 200,
+   "rank_marketValue_KOSPI": 200,
+   "rank_quantTop_KOSDAQ": 200,
+   "rank_sample_KOSDAQ": {
+    "stockType": "domestic",
+    "stockEndType": "stock",
+    "itemCode": "261780",
+    "reutersCode": "261780",
+    "stockName": "아리바이오랩",
+    "sosok": "1",
+    "closePrice": "5,650",
+    "compareToPreviousClosePrice": "360",
+    "compareToPreviousPrice": {
+     "code": "2",
+     "text": "상승",
+     "name": "RISING"
+    },
+    "fluctuationsRatio": "6.81",
+    "accumulatedTradingVolume": "21,712,498",
+    "accumulatedTradingValue": "126,275",
+    "accumulatedTradingValueKrwHangeul": "1,263억원",
+    "localTradedAt": "2026-11-19T20:20:20+09:00",
+    "marketValue": "1,636",
+    "marketValueHangeul": "1,636억원",
+    "nav": "N/A",
+    "threeMonthEarningRate": "N/A",
+    "marketStatus": "CLOSE",
+    "tradeStopType": {
+     "code": "1",
+     "text": "운영.Trading",
+     "name": "TRADING"
+    },
+    "tradableStatus": "tradable",
+    "tradableStatusCode": "ok",
+    "tradableStatusUpdatedAt": "2026-11-19T08:02:34.891+09:00",
+    "stockExchangeType": {
+     "code": "KQ",
+     "zoneId": "Asia/Seoul",
+     "nationType": "KOR",
+     "delayTime": 0,
+     "startTime": "0900",
+     "endTime": "1530",
+     "closePriceSendTime": "1630",
+     "nameKor": "코스닥",
+     "nameEng": "KOSDAQ",
+     "stockType": "domestic",
+     "nationCode": "KOR",
+     "nationName": "대한민국",
+     "name": "KOSDAQ"
+    },
+    "endUrl": "https://m.stock.naver.com/domestic/stock/261780",
+    "newPcUrl": "https://stock.naver.com/domestic/stock/261780",
+    "stockMiniImageChart": "https://financial-vn.pstatic.net/chart/mobile/mini/krx/261780_interest.png",
+    "itemLogoUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/stock/Stock261780.svg",
+    "itemLogoPngUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/png/stock/Stock261780.png",
+    "closePriceRaw": "5650",
+    "compareToPreviousClosePriceRaw": "360",
+    "accumulatedTradingVolumeRaw": "21712498",
+    "accumulatedTradingValueRaw": "126275000000",
+    "marketValueRaw": "163601264400"
+   },
+   "rank_up_KOSDAQ": 200,
+   "rank_marketValue_KOSDAQ": 200
   }
  },
  "notes": [
@@ -942,8 +1377,8 @@
   "kospi_to_k200_index_ratio = 코스피 ÷ 코스피200 지수, kospi_to_k200_futures_ratio = 코스피 ÷ K200 선물(최근월물, 네이버)",
   "krx.market_net_buy_eok는 개인·외국인·기관계(억 원, 네이버 모바일). program_eok는 차익·비차익·전체 순매수(억 원). breadth는 상승·하락 종목 수",
   "krx(네이버) market_net_buy_eok·program_eok 단위는 억 원(순매수). 시장 기타법인 포함",
-  "stock_net_buy는 네이버 종목별 외국인·기관 순매매(주)와 종가로 환산한 억 원 근사. 종목별 기타법인(자사주)은 없음",
-  "top_trading_value는 네이버 거래량 상위 100을 거래대금 순으로 다시 정렬한 것(거래대금 상위와 거의 같지만 완전히 같지는 않을 수 있음)",
+  "stock_net_buy는 네이버 모바일 종목별 외국인·기관·개인 순매매(주)와 종가로 환산한 억 원 근사. 종목별 기타법인(자사주)은 없음",
+  "top_trading_value는 네이버 모바일 거래량 상위·상승·시총 상위를 합쳐 거래대금 순으로 정렬한 것. trading_value_raw 단위는 네이버 표기(백만 원으로 추정), trading_value_text가 있으면 그 한글 표기가 정확함",
   "원/달러는 24시간 시세라 실행 시각 값(서울 종가 아님)",
   "외국인 선물 수급은 수집하지 않음(검색으로 확인)"
  ]
