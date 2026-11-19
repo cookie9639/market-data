@@ -165,7 +165,7 @@ def naver_flows(today):
 
     # 1)·2) 시장별 투자자 순매수·프로그램: 네이버 모바일 API(구 PC 페이지는 410으로 닫힘)
     import requests
-    markets, prog = {}, {}
+    markets, prog, breadth = {}, {}, {}
     for mkt in ("KOSPI", "KOSDAQ"):
         url = f"https://m.stock.naver.com/api/index/{mkt}/integration"
         try:
@@ -175,30 +175,48 @@ def naver_flows(today):
                 continue
             js = r.json()
             debug[f"integration_{mkt}_keys"] = list(js.keys()) if isinstance(js, dict) else str(type(js))
-            # 투자자 동향
-            deals = js.get("dealTrendInfos") or []
-            if deals:
-                debug[f"integration_{mkt}_deal_sample"] = deals[0]
-                row = next((d for d in deals if str(d.get("bizdate", "")).replace("-", "")[:8] == ymd), None)
-                if row:
+            # 투자자 동향(dealTrendInfo: 개인·외국인·기관, 억 원)
+            deal = js.get("dealTrendInfo") or js.get("dealTrendInfos")
+            if isinstance(deal, list):
+                deal = deal[0] if deal else None
+            if deal:
+                debug[f"integration_{mkt}_deal_raw"] = deal
+                biz = str(deal.get("bizdate", "")).replace("-", "")[:8]
+                if biz == ymd:
                     markets[mkt] = {
-                        "개인": _num(row.get("personalValue")),
-                        "외국인": _num(row.get("foreignValue")),
-                        "기관계": _num(row.get("institutionalValue")),
-                        "단위": "억 원(네이버 표기 그대로)",
+                        "개인": _num(deal.get("personalValue")),
+                        "외국인": _num(deal.get("foreignValue")),
+                        "기관계": _num(deal.get("institutionalValue")),
+                    }
+                    # 그 밖에 숫자로 된 값(기타법인 등)이 있으면 원래 키 이름으로 같이 저장
+                    for kk, vv in deal.items():
+                        if kk not in ("bizdate", "personalValue", "foreignValue", "institutionalValue") and _num(vv) is not None:
+                            markets[mkt][kk] = _num(vv)
+                else:
+                    errors.append(f"{mkt} 투자자: 날짜가 오늘이 아님({biz})")
+            else:
+                errors.append(f"{mkt} 투자자: dealTrendInfo 없음")
+            # 프로그램(programTrendInfo: 차익·비차익·전체 순매수, 억 원)
+            pt = js.get("programTrendInfo")
+            if isinstance(pt, dict):
+                biz = str(pt.get("bizdate", "")).replace("-", "")[:8]
+                if biz == ymd:
+                    prog[mkt] = {
+                        "차익_순매수": _num(pt.get("indexDifferenceReal")),
+                        "비차익_순매수": _num(pt.get("indexBiDifferenceReal")),
+                        "전체_순매수": _num(pt.get("indexTotalReal")),
                     }
                 else:
-                    errors.append(f"{mkt} 투자자: 오늘 날짜 없음(가장 최근 {deals[0].get('bizdate')})")
-            else:
-                errors.append(f"{mkt} 투자자: dealTrendInfos 없음")
-            # 프로그램(키 이름이 확실하지 않아 program이 들어간 키를 모두 저장)
-            for key, val in js.items():
-                if "program" in key.lower():
-                    prog.setdefault(mkt, {})[key] = val if not isinstance(val, list) else val[:2]
+                    errors.append(f"{mkt} 프로그램: 날짜가 오늘이 아님({biz})")
+            # 상승·하락 종목 수
+            ud = js.get("upDownStockInfo")
+            if isinstance(ud, dict):
+                breadth[mkt] = {k: (_num(v) if _num(v) is not None else v) for k, v in ud.items()}
         except Exception as e:
             errors.append(f"{mkt} integration: {str(e)[:150]}")
     res["market_net_buy_eok"] = markets
-    res["program_raw"] = prog
+    res["program_eok"] = prog
+    res["breadth"] = breadth
 
     # 3) 종목별 외국인·기관 순매매(주) → 종가로 억 원 환산(근사)
     stocks = {}
@@ -340,6 +358,7 @@ def main():
         "notes": [
             "가격·이평선은 야후 일봉. ma는 오늘 종가 포함, ma_next_day_if_flat은 내일 종가가 오늘과 같다고 가정한 값",
             "kospi_to_k200_index_ratio = 코스피 ÷ 코스피200 지수, kospi_to_k200_futures_ratio = 코스피 ÷ K200 선물(최근월물, 네이버)",
+            "krx.market_net_buy_eok는 개인·외국인·기관계(억 원, 네이버 모바일). program_eok는 차익·비차익·전체 순매수(억 원). breadth는 상승·하락 종목 수",
             "krx(네이버) market_net_buy_eok·program_eok 단위는 억 원(순매수). 시장 기타법인 포함",
             "stock_net_buy는 네이버 종목별 외국인·기관 순매매(주)와 종가로 환산한 억 원 근사. 종목별 기타법인(자사주)은 없음",
             "top_trading_value는 네이버 거래량 상위 100을 거래대금 순으로 다시 정렬한 것(거래대금 상위와 거의 같지만 완전히 같지는 않을 수 있음)",
@@ -357,7 +376,7 @@ def main():
         hy = items["000660.KS"]
         mk = flows.get("market_net_buy_eok", {}).get("KOSPI", {}) if flows.get("ok") else {}
         hyf = flows.get("stock_net_buy", {}).get("SK하이닉스", {}) if flows.get("ok") else {}
-        pg = {}
+        pg = flows.get("program_eok", {}).get("KOSPI", {}) if flows.get("ok") else {}
         row = {
             "date": today,
             "kospi": kospi.get("close"),
@@ -368,7 +387,6 @@ def main():
             "kospi_foreign_eok": mk.get("외국인"),
             "kospi_inst_eok": mk.get("기관계"),
             "kospi_indiv_eok": mk.get("개인"),
-            "kospi_other_corp_eok": mk.get("기타법인"),
             "kospi_program_nonarb_eok": pg.get("비차익_순매수"),
             "hynix_close": hy.get("close"),
             "hynix_foreign_eok_approx": hyf.get("외국인_억_근사"),
