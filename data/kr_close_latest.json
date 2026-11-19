@@ -1,9 +1,9 @@
 {
- "generated_at_kst": "2026-11-19 21:00",
+ "generated_at_kst": "2026-11-19 21:15",
  "krx_session_date": "2026-11-19",
  "market_open_today": true,
- "kospi_to_k200_index_ratio": null,
- "kospi_to_k200_futures_ratio": null,
+ "kospi_to_k200_index_ratio": 6.4258,
+ "kospi_to_k200_futures_ratio": 6.4546,
  "stale_tickers": [],
  "failed_tickers": [],
  "items": {
@@ -86,28 +86,28 @@
    "open": 1332.54,
    "high": 1332.85,
    "low": 1326.78,
-   "close": 1327.96,
+   "close": 1328.4,
    "prev_close": 1333.01,
-   "change_pct": -0.38,
+   "change_pct": -0.35,
    "volume": 0,
-   "change_5d_pct": -0.62,
+   "change_5d_pct": -0.59,
    "ma": {
-    "ma5": 1332.73,
-    "vs_ma5_pct": -0.36,
-    "ma10": 1340.47,
-    "vs_ma10_pct": -0.93,
-    "ma20": 1336.78,
-    "vs_ma20_pct": -0.66,
-    "ma60": 1346.82,
-    "vs_ma60_pct": -1.4,
+    "ma5": 1332.82,
+    "vs_ma5_pct": -0.33,
+    "ma10": 1340.52,
+    "vs_ma10_pct": -0.9,
+    "ma20": 1336.81,
+    "vs_ma20_pct": -0.63,
+    "ma60": 1346.83,
+    "vs_ma60_pct": -1.37,
     "ma120": 1411.95,
-    "vs_ma120_pct": -5.95
+    "vs_ma120_pct": -5.92
    },
    "ma_next_day_if_flat": {
-    "ma5": 1331.57,
-    "ma10": 1337.63,
-    "ma20": 1336.88,
-    "ma60": 1345.94,
+    "ma5": 1331.75,
+    "ma10": 1337.72,
+    "ma20": 1336.93,
+    "ma60": 1345.96,
     "ma120": 1410.24
    },
    "is_today": true,
@@ -728,23 +728,46 @@
   }
  },
  "krx": {
-  "ok": false,
+  "ok": true,
   "source": "네이버 금융",
   "market_net_buy_eok": {},
-  "program_eok": {},
+  "program_raw": {
+   "KOSPI": {
+    "programTrendInfo": {
+     "bizdate": "20261119",
+     "indexDifferenceReal": "-14",
+     "indexBiDifferenceReal": "-2,523",
+     "indexTotalReal": "-2,537"
+    }
+   },
+   "KOSDAQ": {
+    "programTrendInfo": {
+     "bizdate": "20261119",
+     "indexDifferenceReal": "+248",
+     "indexBiDifferenceReal": "-1,598",
+     "indexTotalReal": "-1,350"
+    }
+   }
+  },
   "stock_net_buy": {},
   "index": {
    "kospi200": {
-    "close": null,
-    "change_raw": null
+    "close": 799.57,
+    "change": 11.86,
+    "change_pct": 1.51,
+    "time": "2026-11-19T20:15:00+09:00"
    },
    "k200_futures": {
-    "close": null,
-    "change_raw": null
+    "close": 796.0,
+    "change": 9.55,
+    "change_pct": 1.21,
+    "time": "2026-11-19T16:34:59+09:00"
    }
   },
   "top_trading_value": {},
   "errors": [
+   "KOSPI 투자자: dealTrendInfos 없음",
+   "KOSDAQ 투자자: dealTrendInfos 없음",
    "삼성전자 외국인·기관: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
    "SK하이닉스 외국인·기관: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
    "삼성SDI 외국인·기관: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
@@ -752,15 +775,133 @@
    "KOSDAQ 거래대금 상위: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib."
   ],
   "debug_http": {
-   "investor_KOSPI": 410,
-   "investor_KOSDAQ": 410,
-   "program_KOSPI": 410,
-   "program_KOSDAQ": 410,
+   "integration_KOSPI": 200,
+   "integration_KOSPI_keys": [
+    "stockEndType",
+    "itemCode",
+    "reutersCode",
+    "stockName",
+    "totalInfos",
+    "description",
+    "dealTrendInfo",
+    "programTrendInfo",
+    "upDownStockInfo",
+    "enrollStocks",
+    "month"
+   ],
+   "integration_KOSDAQ": 200,
+   "integration_KOSDAQ_keys": [
+    "stockEndType",
+    "itemCode",
+    "reutersCode",
+    "stockName",
+    "totalInfos",
+    "description",
+    "dealTrendInfo",
+    "programTrendInfo",
+    "upDownStockInfo",
+    "enrollStocks",
+    "month"
+   ],
    "frgn_005930": 200,
    "frgn_000660": 200,
    "frgn_006400": 200,
-   "index_KPI200": 200,
-   "index_FUT": 200,
+   "mbasic_KPI200": 200,
+   "mbasic_KPI200_sample": {
+    "stockEndType": "index",
+    "itemCode": "KPI200",
+    "reutersCode": "KPI200",
+    "symbolCode": "KPI200",
+    "stockName": "코스피 200",
+    "itemLogoUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/index/IndexKPI200.svg",
+    "itemLogoPngUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/png/index/IndexKPI200.png",
+    "closePrice": "799.57",
+    "compareToPreviousClosePrice": "11.86",
+    "compareToPreviousPrice": {
+     "code": "2",
+     "text": "상승",
+     "name": "RISING"
+    },
+    "fluctuationsRatio": "1.51",
+    "marketStatus": "CLOSE",
+    "localTradedAt": "2026-11-19T20:15:00+09:00",
+    "stockExchangeType": {
+     "code": "KS",
+     "zoneId": "Asia/Seoul",
+     "nationType": "KOR",
+     "delayTime": 0,
+     "startTime": "0900",
+     "endTime": "1530",
+     "closePriceSendTime": "1630",
+     "nameKor": "코스피",
+     "nameEng": "KOSPI",
+     "stockType": "domestic",
+     "nationCode": "KOR",
+     "nationName": "대한민국",
+     "name": "KOSPI"
+    },
+    "imageCharts": {
+     "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/KPI200_end.png",
+     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up.png",
+     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/KPI200_end.png",
+     "day": "https://financial-vn.pstatic.net/chart/mobile/day/KPI200_end.png",
+     "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up_tablet.png",
+     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/KPI200_end.png",
+     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/KPI200_end.png",
+     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_transparent.png",
+     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/KPI200_end.png",
+     "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/KPI200_end.png",
+     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/KPI200_end.png"
+    }
+   },
+   "mbasic_FUT": 200,
+   "mbasic_FUT_sample": {
+    "stockEndType": "futures",
+    "itemCode": "FUT",
+    "reutersCode": "FUT",
+    "symbolCode": "FUT",
+    "stockName": "코스피 200 선물",
+    "itemLogoUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/index/IndexFUT.svg",
+    "itemLogoPngUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/png/index/IndexFUT.png",
+    "closePrice": "796.00",
+    "compareToPreviousClosePrice": "9.55",
+    "compareToPreviousPrice": {
+     "code": "2",
+     "text": "상승",
+     "name": "RISING"
+    },
+    "fluctuationsRatio": "1.21",
+    "marketStatus": "CLOSE",
+    "localTradedAt": "2026-11-19T16:34:59+09:00",
+    "stockExchangeType": {
+     "code": "KS",
+     "zoneId": "Asia/Seoul",
+     "nationType": "KOR",
+     "delayTime": 0,
+     "startTime": "0900",
+     "endTime": "1530",
+     "closePriceSendTime": "1630",
+     "nameKor": "코스피",
+     "nameEng": "KOSPI",
+     "stockType": "domestic",
+     "nationCode": "KOR",
+     "nationName": "대한민국",
+     "name": "KOSPI"
+    },
+    "imageCharts": {
+     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up.png",
+     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/FUT_end.png",
+     "day": "https://financial-vn.pstatic.net/chart/mobile/day/FUT_end.png",
+     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/FUT_end.png",
+     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/FUT_end.png",
+     "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/FUT_end.png",
+     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/FUT_end.png",
+     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/FUT_end.png",
+     "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/FUT_end.png",
+     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_transparent.png",
+     "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up_tablet.png"
+    }
+   },
    "quant_KOSPI": 200,
    "quant_KOSDAQ": 200
   }
