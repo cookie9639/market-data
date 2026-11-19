@@ -5,7 +5,7 @@ data/kr_close_latest.json 과 data/history/kr_close_flows.csv 를 저장한다.
 Claude 예약 작업 "코스피 장마감 시황"이 이 JSON을 읽어 해석만 한다.
 
 - 지수·종목 가격, 이동평균: 야후 파이낸스(yfinance)
-- 투자자별 매매(외국인·기관·개인·기타법인), 거래대금 상위: KRX(pykrx), 실패해도 나머지는 저장
+- 투자자별 매매·프로그램·K200 지수·선물·거래대금 상위: 네이버 금융. 실패해도 나머지는 저장
 """
 
 import csv
@@ -23,7 +23,6 @@ EOK = 100_000_000  # 1억 원
 TICKERS = [
     ("^KS11", "코스피", "지수"),
     ("^KQ11", "코스닥", "지수"),
-    ("^KS200", "코스피200", "지수"),
     ("KRW=X", "원/달러(야후, 실행 시각)", "환율"),
     # 고정 관찰
     ("005930.KS", "삼성전자", "고정관찰"),
@@ -108,72 +107,179 @@ def yahoo_item(ticker, today):
     return out
 
 
-def krx_flows(today_ymd):
-    """pykrx로 투자자별 매매·거래대금 상위. 실패하면 error만 남긴다."""
-    res = {"ok": False}
+NAVER_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+                 "Referer": "https://finance.naver.com/"}
+
+
+def _num(x):
+    """'1,234' '-56' '+3.41%' '상승 1,000' 같은 문자열 → float. 실패하면 None."""
+    import re
+    if x is None:
+        return None
+    if isinstance(x, (int, float)):
+        return None if x != x else float(x)
+    t = str(x).replace(",", "").replace("%", "").strip()
+    neg = t.startswith("-") or "하락" in t or "하한" in t
+    m = re.search(r"\d+(\.\d+)?", t)
+    if not m:
+        return None
+    v = float(m.group(0))
+    return -v if neg else v
+
+
+def _get(url, debug, key):
+    import requests
     try:
-        from pykrx import stock
+        r = requests.get(url, headers=NAVER_HEADERS, timeout=20)
+        debug[key] = r.status_code
+        if r.status_code != 200:
+            return None
+        if "finance.naver.com" in url and "m.stock" not in url:
+            r.encoding = "euc-kr"
+        return r
     except Exception as e:
-        res["error"] = f"pykrx import 실패: {e}"
-        return res
+        debug[key] = str(e)[:150]
+        return None
 
+
+def _date_rows(html, yymmdd):
+    """표에서 첫 칸이 오늘 날짜(26.11.19 또는 2026.11.19)인 행들을 숫자 리스트로."""
+    import io
+    import pandas as pd
+    out = []
+    for df in pd.read_html(io.StringIO(html)):
+        for _, row in df.iterrows():
+            first = str(row.iloc[0]).strip()
+            if first in (yymmdd, "20" + yymmdd):
+                out.append([str(v) for v in row.tolist()])
+    return out
+
+
+def naver_flows(today):
+    """네이버 금융에서 투자자별 매매(시장), 프로그램, 종목별 외국인·기관, K200 선물, 거래대금 상위."""
+    res = {"ok": False, "source": "네이버 금융"}
+    debug = {}
     errors = []
+    yymmdd = today[2:].replace("-", ".")
+    ymd = today.replace("-", "")
 
-    # 1) 시장별 투자자 순매수(억 원)
+    # 1) 시장별 투자자 순매수(억 원): 개인, 외국인, 기관계, 금융투자, 보험, 투신, 은행, 기타금융, 연기금등, 기타법인
+    cols = ["개인", "외국인", "기관계", "금융투자", "보험", "투신", "은행", "기타금융", "연기금등", "기타법인"]
     markets = {}
-    for mkt in ("KOSPI", "KOSDAQ"):
+    for mkt, sosok in (("KOSPI", "01"), ("KOSDAQ", "02")):
         try:
-            df = stock.get_market_trading_value_by_date(today_ymd, today_ymd, mkt)
-            if len(df):
-                row = df.iloc[-1]
-                markets[mkt] = {k: r2(row[k] / EOK, 0) for k in df.columns}
+            r = _get(f"https://finance.naver.com/sise/investorDealTrendDay.naver?bizdate={ymd}&sosok={sosok}", debug, f"investor_{mkt}")
+            if r is None:
+                continue
+            rows = _date_rows(r.text, yymmdd)
+            if rows:
+                vals = [_num(v) for v in rows[0][1:]]
+                markets[mkt] = dict(zip(cols, vals))
+                debug[f"investor_{mkt}_raw"] = rows[0]
+            else:
+                errors.append(f"{mkt} 투자자: 오늘 날짜 행 없음")
         except Exception as e:
             errors.append(f"{mkt} 투자자: {str(e)[:150]}")
     res["market_net_buy_eok"] = markets
 
-    # 2) 종목별 투자자 순매수(억 원, 세부 구분 포함 → 기타법인)
+    # 2) 프로그램 매매(억 원): 차익 매수·매도·순매수, 비차익 매수·매도·순매수, 전체 매수·매도·순매수
+    prog = {}
+    pcols = ["차익_매수", "차익_매도", "차익_순매수", "비차익_매수", "비차익_매도", "비차익_순매수", "전체_매수", "전체_매도", "전체_순매수"]
+    for mkt, sosok in (("KOSPI", "01"), ("KOSDAQ", "02")):
+        try:
+            r = _get(f"https://finance.naver.com/sise/programDealTrendDay.naver?bizdate={ymd}&sosok={sosok}", debug, f"program_{mkt}")
+            if r is None:
+                continue
+            rows = _date_rows(r.text, yymmdd)
+            if rows:
+                vals = [_num(v) for v in rows[0][1:]]
+                prog[mkt] = dict(zip(pcols, vals))
+                debug[f"program_{mkt}_raw"] = rows[0]
+            else:
+                errors.append(f"{mkt} 프로그램: 오늘 날짜 행 없음")
+        except Exception as e:
+            errors.append(f"{mkt} 프로그램: {str(e)[:150]}")
+    res["program_eok"] = prog
+
+    # 3) 종목별 외국인·기관 순매매(주) → 종가로 억 원 환산(근사)
     stocks = {}
     for code, name in FLOW_STOCKS.items():
         try:
-            df = stock.get_market_trading_value_by_date(today_ymd, today_ymd, code, detail=True)
-            if len(df):
-                row = df.iloc[-1]
-                stocks[name] = {k: r2(row[k] / EOK, 0) for k in df.columns}
-        except Exception as e:
-            errors.append(f"{name} 투자자: {str(e)[:150]}")
-    res["stock_net_buy_eok"] = stocks
-
-    # 3) 거래대금 상위 15(코스피·코스닥)
-    tops = {}
-    for mkt in ("KOSPI", "KOSDAQ"):
-        try:
-            df = stock.get_market_ohlcv(today_ymd, market=mkt)
-            if len(df) and df["거래대금"].sum() > 0:
-                df = df.sort_values("거래대금", ascending=False).head(15)
-                tops[mkt] = [
-                    {
-                        "code": code,
-                        "name": stock.get_market_ticker_name(code),
-                        "close": int(r["종가"]),
-                        "change_pct": r2(r["등락률"]),
-                        "trading_value_eok": r2(r["거래대금"] / EOK, 0),
-                    }
-                    for code, r in df.iterrows()
-                ]
-                # 상승·하락 종목 수
-                all_df = stock.get_market_ohlcv(today_ymd, market=mkt)
-                tops[mkt + "_breadth"] = {
-                    "up": int((all_df["등락률"] > 0).sum()),
-                    "down": int((all_df["등락률"] < 0).sum()),
-                    "flat": int((all_df["등락률"] == 0).sum()),
+            r = _get(f"https://finance.naver.com/item/frgn.naver?code={code}", debug, f"frgn_{code}")
+            if r is None:
+                continue
+            rows = _date_rows(r.text, yymmdd)
+            if rows:
+                row = rows[0]
+                # 날짜, 종가, 전일비, 등락률, 거래량, 기관 순매매량, 외국인 순매매량, 보유주수, 보유율
+                close = _num(row[1])
+                inst_sh, frgn_sh = _num(row[5]), _num(row[6])
+                stocks[name] = {
+                    "기관_순매매_주": inst_sh,
+                    "외국인_순매매_주": frgn_sh,
+                    "기관_억_근사": r2(inst_sh * close / EOK, 0) if inst_sh is not None and close else None,
+                    "외국인_억_근사": r2(frgn_sh * close / EOK, 0) if frgn_sh is not None and close else None,
+                    "외국인_보유율": _num(row[8]) if len(row) > 8 else None,
                 }
+                debug[f"frgn_{code}_raw"] = row
+            else:
+                errors.append(f"{name} 외국인·기관: 오늘 날짜 행 없음(장 마감 직후엔 늦게 올라올 수 있음)")
+        except Exception as e:
+            errors.append(f"{name} 외국인·기관: {str(e)[:150]}")
+    res["stock_net_buy"] = stocks
+
+    # 4) 코스피200 지수와 K200 선물(최근월물) 현재가(=장 마감 후 종가)
+    idx = {}
+    for key, code in (("kospi200", "KPI200"), ("k200_futures", "FUT")):
+        try:
+            r = _get(f"https://finance.naver.com/sise/sise_index.naver?code={code}", debug, f"index_{code}")
+            if r is None:
+                continue
+            import re
+            m = re.search(r'id="now_value"[^>]*>([\d,\.]+)<', r.text)
+            c = re.search(r'id="change_value_and_rate"[^>]*>(.*?)</span>\s*</em>', r.text, re.S)
+            idx[key] = {
+                "close": _num(m.group(1)) if m else None,
+                "change_raw": re.sub(r"<[^>]+>|\s+", " ", c.group(1)).strip() if c else None,
+            }
+        except Exception as e:
+            errors.append(f"{key}: {str(e)[:150]}")
+    res["index"] = idx
+
+    # 5) 거래대금 상위(네이버 거래량 상위 100에서 거래대금 순으로 다시 정렬) — 거래대금 단위 백만원 → 억
+    tops = {}
+    for mkt, sosok in (("KOSPI", "0"), ("KOSDAQ", "1")):
+        try:
+            import io
+            import pandas as pd
+            r = _get(f"https://finance.naver.com/sise/sise_quant.naver?sosok={sosok}", debug, f"quant_{mkt}")
+            if r is None:
+                continue
+            tables = [t for t in pd.read_html(io.StringIO(r.text)) if "거래대금" in [str(c) for c in t.columns]]
+            if not tables:
+                errors.append(f"{mkt} 거래대금 표 없음")
+                continue
+            t = tables[0].dropna(subset=["종목명"])
+            items = []
+            for _, row in t.iterrows():
+                tv = _num(row["거래대금"])
+                if tv is None:
+                    continue
+                items.append({
+                    "name": str(row["종목명"]),
+                    "close": _num(row["현재가"]),
+                    "change_pct": _num(row["등락률"]),
+                    "trading_value_eok": r2(tv / 100, 0),
+                })
+            items.sort(key=lambda x: x["trading_value_eok"] or 0, reverse=True)
+            tops[mkt] = items[:15]
         except Exception as e:
             errors.append(f"{mkt} 거래대금 상위: {str(e)[:150]}")
     res["top_trading_value"] = tops
 
-    res["ok"] = bool(markets) or bool(stocks) or bool(tops)
-    if errors:
-        res["errors"] = errors
+    res["ok"] = bool(markets or prog or stocks or tops)
+    res["errors"] = errors
+    res["debug_http"] = debug
     return res
 
 
@@ -198,30 +304,37 @@ def main():
 
     # 환산 배율(코스피 ÷ 코스피200 지수). 선물 종가는 수집하지 않으므로 지수 기준
     ratio = None
-    k200 = items["^KS200"]
-    if kospi.get("ok") and k200.get("ok") and k200.get("date") == session_date:
-        ratio = r2(kospi["close"] / k200["close"], 4)
 
     try:
-        flows = krx_flows(today_ymd) if market_open_today else {"ok": False, "error": "오늘 장 데이터 없음(휴장 또는 미반영)"}
+        flows = naver_flows(today) if market_open_today else {"ok": False, "error": "오늘 장 데이터 없음(휴장 또는 미반영)"}
     except Exception:
         flows = {"ok": False, "error": traceback.format_exc()[-300:]}
+
+    # 코스피200 지수는 야후에 없어 네이버 값으로 배율 계산
+    k200_close = (flows.get("index", {}).get("kospi200") or {}).get("close") if flows.get("ok") is not None else None
+    fut_close = (flows.get("index", {}).get("k200_futures") or {}).get("close")
+    if kospi.get("ok") and k200_close:
+        ratio = r2(kospi["close"] / k200_close, 4)
+    ratio_fut = r2(kospi["close"] / fut_close, 4) if kospi.get("ok") and fut_close else None
 
     result = {
         "generated_at_kst": now.strftime("%Y-%m-%d %H:%M"),
         "krx_session_date": session_date,
         "market_open_today": market_open_today,
         "kospi_to_k200_index_ratio": ratio,
+        "kospi_to_k200_futures_ratio": ratio_fut,
         "stale_tickers": stale,
         "failed_tickers": [t for t, r in items.items() if not r.get("ok")],
         "items": items,
         "krx": flows,
         "notes": [
             "가격·이평선은 야후 일봉. ma는 오늘 종가 포함, ma_next_day_if_flat은 내일 종가가 오늘과 같다고 가정한 값",
-            "kospi_to_k200_index_ratio는 코스피 ÷ 코스피200 '지수'(선물 아님)",
-            "krx 순매수 단위는 억 원(매수−매도). 기타법인 = 회사 자사주 매입이 잡히는 구분",
+            "kospi_to_k200_index_ratio = 코스피 ÷ 코스피200 지수, kospi_to_k200_futures_ratio = 코스피 ÷ K200 선물(최근월물, 네이버)",
+            "krx(네이버) market_net_buy_eok·program_eok 단위는 억 원(순매수). 시장 기타법인 포함",
+            "stock_net_buy는 네이버 종목별 외국인·기관 순매매(주)와 종가로 환산한 억 원 근사. 종목별 기타법인(자사주)은 없음",
+            "top_trading_value는 네이버 거래량 상위 100을 거래대금 순으로 다시 정렬한 것(거래대금 상위와 거의 같지만 완전히 같지는 않을 수 있음)",
             "원/달러는 24시간 시세라 실행 시각 값(서울 종가 아님)",
-            "K200 선물·외국인 선물·프로그램 매매는 수집하지 않음(검색으로 확인)",
+            "외국인 선물 수급은 수집하지 않음(검색으로 확인)",
         ],
     }
 
@@ -233,19 +346,23 @@ def main():
     if market_open_today:
         hy = items["000660.KS"]
         mk = flows.get("market_net_buy_eok", {}).get("KOSPI", {}) if flows.get("ok") else {}
-        hyf = flows.get("stock_net_buy_eok", {}).get("SK하이닉스", {}) if flows.get("ok") else {}
+        hyf = flows.get("stock_net_buy", {}).get("SK하이닉스", {}) if flows.get("ok") else {}
+        pg = flows.get("program_eok", {}).get("KOSPI", {}) if flows.get("ok") else {}
         row = {
             "date": today,
             "kospi": kospi.get("close"),
             "kospi_chg_pct": kospi.get("change_pct"),
             "kosdaq": items["^KQ11"].get("close"),
-            "k200": k200.get("close"),
-            "kospi_foreign_eok": mk.get("외국인합계"),
-            "kospi_inst_eok": mk.get("기관합계"),
+            "k200": k200_close,
+            "k200_futures": fut_close,
+            "kospi_foreign_eok": mk.get("외국인"),
+            "kospi_inst_eok": mk.get("기관계"),
             "kospi_indiv_eok": mk.get("개인"),
+            "kospi_other_corp_eok": mk.get("기타법인"),
+            "kospi_program_nonarb_eok": pg.get("비차익_순매수"),
             "hynix_close": hy.get("close"),
-            "hynix_foreign_eok": hyf.get("외국인"),
-            "hynix_other_corp_eok": hyf.get("기타법인"),
+            "hynix_foreign_eok_approx": hyf.get("외국인_억_근사"),
+            "hynix_inst_eok_approx": hyf.get("기관_억_근사"),
         }
         path = "data/history/kr_close_flows.csv"
         rows = []
