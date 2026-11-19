@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install yfinance pykrx
+      - run: pip install yfinance requests lxml html5lib beautifulsoup4 pandas
       - run: python collect_kr_close.py
       - name: 결과 저장
         run: |
