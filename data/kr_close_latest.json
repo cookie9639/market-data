@@ -1,12 +1,11 @@
 {
- "generated_at_kst": "2026-11-19 20:50",
+ "generated_at_kst": "2026-11-19 21:00",
  "krx_session_date": "2026-11-19",
  "market_open_today": true,
  "kospi_to_k200_index_ratio": null,
+ "kospi_to_k200_futures_ratio": null,
  "stale_tickers": [],
- "failed_tickers": [
-  "^KS200"
- ],
+ "failed_tickers": [],
  "items": {
   "^KS11": {
    "ok": true,
@@ -80,12 +79,6 @@
    "name": "코스닥",
    "group": "지수"
   },
-  "^KS200": {
-   "ok": false,
-   "error": "데이터 부족",
-   "name": "코스피200",
-   "group": "지수"
-  },
   "KRW=X": {
    "ok": true,
    "date": "2026-11-19",
@@ -93,29 +86,29 @@
    "open": 1332.54,
    "high": 1332.85,
    "low": 1326.78,
-   "close": 1327.48,
+   "close": 1327.96,
    "prev_close": 1333.01,
-   "change_pct": -0.41,
+   "change_pct": -0.38,
    "volume": 0,
-   "change_5d_pct": -0.66,
+   "change_5d_pct": -0.62,
    "ma": {
-    "ma5": 1332.64,
-    "vs_ma5_pct": -0.39,
-    "ma10": 1340.42,
-    "vs_ma10_pct": -0.97,
-    "ma20": 1336.76,
-    "vs_ma20_pct": -0.69,
-    "ma60": 1346.81,
-    "vs_ma60_pct": -1.44,
-    "ma120": 1411.94,
-    "vs_ma120_pct": -5.98
+    "ma5": 1332.73,
+    "vs_ma5_pct": -0.36,
+    "ma10": 1340.47,
+    "vs_ma10_pct": -0.93,
+    "ma20": 1336.78,
+    "vs_ma20_pct": -0.66,
+    "ma60": 1346.82,
+    "vs_ma60_pct": -1.4,
+    "ma120": 1411.95,
+    "vs_ma120_pct": -5.95
    },
    "ma_next_day_if_flat": {
-    "ma5": 1331.38,
-    "ma10": 1337.54,
-    "ma20": 1336.83,
-    "ma60": 1345.93,
-    "ma120": 1410.23
+    "ma5": 1331.57,
+    "ma10": 1337.63,
+    "ma20": 1336.88,
+    "ma60": 1345.94,
+    "ma120": 1410.24
    },
    "is_today": true,
    "name": "원/달러(야후, 실행 시각)",
@@ -736,19 +729,49 @@
  },
  "krx": {
   "ok": false,
+  "source": "네이버 금융",
   "market_net_buy_eok": {},
-  "stock_net_buy_eok": {},
+  "program_eok": {},
+  "stock_net_buy": {},
+  "index": {
+   "kospi200": {
+    "close": null,
+    "change_raw": null
+   },
+   "k200_futures": {
+    "close": null,
+    "change_raw": null
+   }
+  },
   "top_trading_value": {},
   "errors": [
-   "KOSPI 거래대금 상위: \"None of [Index(['시가', '고가', '저가', '종가'], dtype='object')] are in the [columns]\"",
-   "KOSDAQ 거래대금 상위: \"None of [Index(['시가', '고가', '저가', '종가'], dtype='object')] are in the [columns]\""
-  ]
+   "삼성전자 외국인·기관: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
+   "SK하이닉스 외국인·기관: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
+   "삼성SDI 외국인·기관: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
+   "KOSPI 거래대금 상위: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
+   "KOSDAQ 거래대금 상위: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib."
+  ],
+  "debug_http": {
+   "investor_KOSPI": 410,
+   "investor_KOSDAQ": 410,
+   "program_KOSPI": 410,
+   "program_KOSDAQ": 410,
+   "frgn_005930": 200,
+   "frgn_000660": 200,
+   "frgn_006400": 200,
+   "index_KPI200": 200,
+   "index_FUT": 200,
+   "quant_KOSPI": 200,
+   "quant_KOSDAQ": 200
+  }
  },
  "notes": [
   "가격·이평선은 야후 일봉. ma는 오늘 종가 포함, ma_next_day_if_flat은 내일 종가가 오늘과 같다고 가정한 값",
-  "kospi_to_k200_index_ratio는 코스피 ÷ 코스피200 '지수'(선물 아님)",
-  "krx 순매수 단위는 억 원(매수−매도). 기타법인 = 회사 자사주 매입이 잡히는 구분",
+  "kospi_to_k200_index_ratio = 코스피 ÷ 코스피200 지수, kospi_to_k200_futures_ratio = 코스피 ÷ K200 선물(최근월물, 네이버)",
+  "krx(네이버) market_net_buy_eok·program_eok 단위는 억 원(순매수). 시장 기타법인 포함",
+  "stock_net_buy는 네이버 종목별 외국인·기관 순매매(주)와 종가로 환산한 억 원 근사. 종목별 기타법인(자사주)은 없음",
+  "top_trading_value는 네이버 거래량 상위 100을 거래대금 순으로 다시 정렬한 것(거래대금 상위와 거의 같지만 완전히 같지는 않을 수 있음)",
   "원/달러는 24시간 시세라 실행 시각 값(서울 종가 아님)",
-  "K200 선물·외국인 선물·프로그램 매매는 수집하지 않음(검색으로 확인)"
+  "외국인 선물 수급은 수집하지 않음(검색으로 확인)"
  ]
 }
