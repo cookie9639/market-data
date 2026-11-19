@@ -1,5 +1,5 @@
 {
- "generated_at_kst": "2026-11-19 21:15",
+ "generated_at_kst": "2026-11-19 21:52",
  "krx_session_date": "2026-11-19",
  "market_open_today": true,
  "kospi_to_k200_index_ratio": 6.4258,
@@ -85,30 +85,30 @@
    "prev_date": "2026-11-18",
    "open": 1332.54,
    "high": 1332.85,
-   "low": 1326.78,
-   "close": 1328.4,
+   "low": 1326.48,
+   "close": 1326.76,
    "prev_close": 1333.01,
-   "change_pct": -0.35,
+   "change_pct": -0.47,
    "volume": 0,
-   "change_5d_pct": -0.59,
+   "change_5d_pct": -0.71,
    "ma": {
-    "ma5": 1332.82,
-    "vs_ma5_pct": -0.33,
-    "ma10": 1340.52,
-    "vs_ma10_pct": -0.9,
-    "ma20": 1336.81,
-    "vs_ma20_pct": -0.63,
-    "ma60": 1346.83,
-    "vs_ma60_pct": -1.37,
-    "ma120": 1411.95,
-    "vs_ma120_pct": -5.92
+    "ma5": 1332.49,
+    "vs_ma5_pct": -0.43,
+    "ma10": 1340.35,
+    "vs_ma10_pct": -1.01,
+    "ma20": 1336.72,
+    "vs_ma20_pct": -0.75,
+    "ma60": 1346.8,
+    "vs_ma60_pct": -1.49,
+    "ma120": 1411.94,
+    "vs_ma120_pct": -6.03
    },
    "ma_next_day_if_flat": {
-    "ma5": 1331.75,
-    "ma10": 1337.72,
-    "ma20": 1336.93,
-    "ma60": 1345.96,
-    "ma120": 1410.24
+    "ma5": 1331.09,
+    "ma10": 1337.39,
+    "ma20": 1336.76,
+    "ma60": 1345.9,
+    "ma120": 1410.22
    },
    "is_today": true,
    "name": "원/달러(야후, 실행 시각)",
@@ -730,23 +730,44 @@
  "krx": {
   "ok": true,
   "source": "네이버 금융",
-  "market_net_buy_eok": {},
-  "program_raw": {
+  "market_net_buy_eok": {
    "KOSPI": {
-    "programTrendInfo": {
-     "bizdate": "20261119",
-     "indexDifferenceReal": "-14",
-     "indexBiDifferenceReal": "-2,523",
-     "indexTotalReal": "-2,537"
-    }
+    "개인": -560.0,
+    "외국인": -4086.0,
+    "기관계": 120.0
    },
    "KOSDAQ": {
-    "programTrendInfo": {
-     "bizdate": "20261119",
-     "indexDifferenceReal": "+248",
-     "indexBiDifferenceReal": "-1,598",
-     "indexTotalReal": "-1,350"
-    }
+    "개인": -64.0,
+    "외국인": -2162.0,
+    "기관계": 2257.0
+   }
+  },
+  "program_eok": {
+   "KOSPI": {
+    "차익_순매수": -14.0,
+    "비차익_순매수": -2523.0,
+    "전체_순매수": -2537.0
+   },
+   "KOSDAQ": {
+    "차익_순매수": 248.0,
+    "비차익_순매수": -1598.0,
+    "전체_순매수": -1350.0
+   }
+  },
+  "breadth": {
+   "KOSPI": {
+    "upperCount": 1.0,
+    "riseCount": 562.0,
+    "lowerCount": 0.0,
+    "fallCount": 307.0,
+    "steadyCount": 43.0
+   },
+   "KOSDAQ": {
+    "upperCount": 12.0,
+    "riseCount": 1170.0,
+    "lowerCount": 0.0,
+    "fallCount": 499.0,
+    "steadyCount": 80.0
    }
   },
   "stock_net_buy": {},
@@ -766,13 +787,11 @@
   },
   "top_trading_value": {},
   "errors": [
-   "KOSPI 투자자: dealTrendInfos 없음",
-   "KOSDAQ 투자자: dealTrendInfos 없음",
-   "삼성전자 외국인·기관: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
-   "SK하이닉스 외국인·기관: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
-   "삼성SDI 외국인·기관: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
-   "KOSPI 거래대금 상위: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib.",
-   "KOSDAQ 거래대금 상위: Missing optional dependency 'html5lib'.  Use pip or conda to install html5lib."
+   "삼성전자 외국인·기관: No tables found",
+   "SK하이닉스 외국인·기관: No tables found",
+   "삼성SDI 외국인·기관: No tables found",
+   "KOSPI 거래대금 상위: No tables found",
+   "KOSDAQ 거래대금 상위: No tables found"
   ],
   "debug_http": {
    "integration_KOSPI": 200,
@@ -789,6 +808,12 @@
     "enrollStocks",
     "month"
    ],
+   "integration_KOSPI_deal_raw": {
+    "bizdate": "20261119",
+    "personalValue": "-560",
+    "foreignValue": "-4,086",
+    "institutionalValue": "+120"
+   },
    "integration_KOSDAQ": 200,
    "integration_KOSDAQ_keys": [
     "stockEndType",
@@ -803,6 +828,12 @@
     "enrollStocks",
     "month"
    ],
+   "integration_KOSDAQ_deal_raw": {
+    "bizdate": "20261119",
+    "personalValue": "-64",
+    "foreignValue": "-2,162",
+    "institutionalValue": "+2,257"
+   },
    "frgn_005930": 200,
    "frgn_000660": 200,
    "frgn_006400": 200,
@@ -841,15 +872,15 @@
      "name": "KOSPI"
     },
     "imageCharts": {
-     "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/KPI200_end.png",
-     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up.png",
-     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/KPI200_end.png",
-     "day": "https://financial-vn.pstatic.net/chart/mobile/day/KPI200_end.png",
      "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up_tablet.png",
-     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/KPI200_end.png",
-     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/KPI200_end.png",
-     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_transparent.png",
+     "day": "https://financial-vn.pstatic.net/chart/mobile/day/KPI200_end.png",
      "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/KPI200_end.png",
+     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/KPI200_end.png",
+     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/KPI200_end.png",
+     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_transparent.png",
+     "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/KPI200_end.png",
+     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/KPI200_end.png",
+     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up.png",
      "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/KPI200_end.png",
      "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/KPI200_end.png"
     }
@@ -889,17 +920,17 @@
      "name": "KOSPI"
     },
     "imageCharts": {
-     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up.png",
-     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/FUT_end.png",
-     "day": "https://financial-vn.pstatic.net/chart/mobile/day/FUT_end.png",
-     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/FUT_end.png",
      "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/FUT_end.png",
-     "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/FUT_end.png",
-     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/FUT_end.png",
-     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/FUT_end.png",
-     "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/FUT_end.png",
+     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/FUT_end.png",
+     "day": "https://financial-vn.pstatic.net/chart/mobile/day/FUT_end.png",
      "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_transparent.png",
-     "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up_tablet.png"
+     "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up_tablet.png",
+     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/FUT_end.png",
+     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up.png",
+     "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/FUT_end.png",
+     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/FUT_end.png",
+     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/FUT_end.png",
+     "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/FUT_end.png"
     }
    },
    "quant_KOSPI": 200,
@@ -909,6 +940,7 @@
  "notes": [
   "가격·이평선은 야후 일봉. ma는 오늘 종가 포함, ma_next_day_if_flat은 내일 종가가 오늘과 같다고 가정한 값",
   "kospi_to_k200_index_ratio = 코스피 ÷ 코스피200 지수, kospi_to_k200_futures_ratio = 코스피 ÷ K200 선물(최근월물, 네이버)",
+  "krx.market_net_buy_eok는 개인·외국인·기관계(억 원, 네이버 모바일). program_eok는 차익·비차익·전체 순매수(억 원). breadth는 상승·하락 종목 수",
   "krx(네이버) market_net_buy_eok·program_eok 단위는 억 원(순매수). 시장 기타법인 포함",
   "stock_net_buy는 네이버 종목별 외국인·기관 순매매(주)와 종가로 환산한 억 원 근사. 종목별 기타법인(자사주)은 없음",
   "top_trading_value는 네이버 거래량 상위 100을 거래대금 순으로 다시 정렬한 것(거래대금 상위와 거의 같지만 완전히 같지는 않을 수 있음)",
