@@ -1,5 +1,5 @@
 {
- "generated_at_kst": "2026-11-24 17:07",
+ "generated_at_kst": "2026-11-24 17:32",
  "krx_session_date": "2026-11-24",
  "market_open_today": true,
  "kospi_to_k200_index_ratio": 6.4289,
@@ -86,29 +86,29 @@
    "open": 1342.02,
    "high": 1348.38,
    "low": 1337.4399,
-   "close": 1342.58,
+   "close": 1341.8,
    "prev_close": 1344.3101,
-   "change_pct": -0.13,
+   "change_pct": -0.19,
    "volume": 0,
-   "change_5d_pct": 0.52,
+   "change_5d_pct": 0.46,
    "ma": {
-    "ma5": 1337.02,
-    "vs_ma5_pct": 0.42,
-    "ma10": 1336.6,
-    "vs_ma10_pct": 0.45,
-    "ma20": 1339.36,
-    "vs_ma20_pct": 0.24,
-    "ma60": 1345.15,
-    "vs_ma60_pct": -0.19,
-    "ma120": 1407.01,
-    "vs_ma120_pct": -4.58
+    "ma5": 1336.86,
+    "vs_ma5_pct": 0.37,
+    "ma10": 1336.52,
+    "vs_ma10_pct": 0.4,
+    "ma20": 1339.32,
+    "vs_ma20_pct": 0.18,
+    "ma60": 1345.14,
+    "vs_ma60_pct": -0.25,
+    "ma120": 1407.0,
+    "vs_ma120_pct": -4.63
    },
    "ma_next_day_if_flat": {
-    "ma5": 1338.93,
-    "ma10": 1336.66,
-    "ma20": 1340.15,
-    "ma60": 1344.65,
-    "ma120": 1405.48
+    "ma5": 1338.62,
+    "ma10": 1336.51,
+    "ma20": 1340.07,
+    "ma60": 1344.62,
+    "ma120": 1405.47
    },
    "is_today": true,
    "name": "원/달러(야후, 실행 시각)",
@@ -124,7 +124,7 @@
    "close": 189400.0,
    "prev_close": 177500.0,
    "change_pct": 6.7,
-   "volume": 17128934,
+   "volume": 17190126,
    "change_5d_pct": -0.47,
    "volume_vs_20d": 0.92,
    "ma": {
@@ -160,9 +160,9 @@
    "close": 1158000.0,
    "prev_close": 1085000.0,
    "change_pct": 6.73,
-   "volume": 3587986,
+   "volume": 3610064,
    "change_5d_pct": 5.46,
-   "volume_vs_20d": 0.92,
+   "volume_vs_20d": 0.93,
    "ma": {
     "ma5": 1136600.0,
     "vs_ma5_pct": 1.88,
@@ -196,9 +196,9 @@
    "close": 450000.0,
    "prev_close": 396000.0,
    "change_pct": 13.64,
-   "volume": 757279,
+   "volume": 759361,
    "change_5d_pct": 1.12,
-   "volume_vs_20d": 1.04,
+   "volume_vs_20d": 1.05,
    "ma": {
     "ma5": 422300.0,
     "vs_ma5_pct": 6.56,
@@ -232,7 +232,7 @@
    "close": 163600.0,
    "prev_close": 150800.0,
    "change_pct": 8.49,
-   "volume": 651743,
+   "volume": 653357,
    "change_5d_pct": -1.03,
    "volume_vs_20d": 0.95,
    "ma": {
@@ -268,9 +268,9 @@
    "close": 858000.0,
    "prev_close": 778000.0,
    "change_pct": 10.28,
-   "volume": 798645,
+   "volume": 807429,
    "change_5d_pct": 13.79,
-   "volume_vs_20d": 0.86,
+   "volume_vs_20d": 0.87,
    "ma": {
     "ma5": 821000.0,
     "vs_ma5_pct": 4.51,
@@ -304,7 +304,7 @@
    "close": 284500.0,
    "prev_close": 256500.0,
    "change_pct": 10.92,
-   "volume": 160527,
+   "volume": 160974,
    "change_5d_pct": 6.16,
    "volume_vs_20d": 0.9,
    "ma": {
@@ -340,9 +340,9 @@
    "close": 715000.0,
    "prev_close": 680000.0,
    "change_pct": 5.15,
-   "volume": 567106,
+   "volume": 603005,
    "change_5d_pct": 5.3,
-   "volume_vs_20d": 0.8,
+   "volume_vs_20d": 0.85,
    "ma": {
     "ma5": 704000.0,
     "vs_ma5_pct": 1.56,
@@ -376,9 +376,9 @@
    "close": 1763000.0,
    "prev_close": 1639000.0,
    "change_pct": 7.57,
-   "volume": 47489,
+   "volume": 46191,
    "change_5d_pct": 7.11,
-   "volume_vs_20d": 0.89,
+   "volume_vs_20d": 0.86,
    "ma": {
     "ma5": 1711400.0,
     "vs_ma5_pct": 3.02,
@@ -412,9 +412,9 @@
    "close": 17780.0,
    "prev_close": 16590.0,
    "change_pct": 7.17,
-   "volume": 1054038,
+   "volume": 1057411,
    "change_5d_pct": 1.89,
-   "volume_vs_20d": 0.7,
+   "volume_vs_20d": 0.71,
    "ma": {
     "ma5": 17470.0,
     "vs_ma5_pct": 1.77,
@@ -448,9 +448,9 @@
    "close": 275000.0,
    "prev_close": 247500.0,
    "change_pct": 11.11,
-   "volume": 738374,
+   "volume": 740395,
    "change_5d_pct": 6.18,
-   "volume_vs_20d": 1.42,
+   "volume_vs_20d": 1.43,
    "ma": {
     "ma5": 262400.0,
     "vs_ma5_pct": 4.8,
@@ -484,7 +484,7 @@
    "close": 362500.0,
    "prev_close": 279000.0,
    "change_pct": 29.93,
-   "volume": 246844,
+   "volume": 247075,
    "change_5d_pct": 30.4,
    "volume_vs_20d": 4.32,
    "ma": {
@@ -520,7 +520,7 @@
    "close": 359000.0,
    "prev_close": 313500.0,
    "change_pct": 14.51,
-   "volume": 347122,
+   "volume": 347920,
    "change_5d_pct": 3.76,
    "volume_vs_20d": 1.55,
    "ma": {
@@ -556,7 +556,7 @@
    "close": 206500.0,
    "prev_close": 190200.0,
    "change_pct": 8.57,
-   "volume": 106725,
+   "volume": 106805,
    "change_5d_pct": 2.74,
    "volume_vs_20d": 0.81,
    "ma": {
@@ -592,9 +592,9 @@
    "close": 17270.0,
    "prev_close": 15760.0,
    "change_pct": 9.58,
-   "volume": 2361413,
+   "volume": 2366661,
    "change_5d_pct": 19.27,
-   "volume_vs_20d": 2.51,
+   "volume_vs_20d": 2.52,
    "ma": {
     "ma5": 16050.0,
     "vs_ma5_pct": 7.6,
@@ -628,9 +628,9 @@
    "close": 472000.0,
    "prev_close": 402000.0,
    "change_pct": 17.41,
-   "volume": 310890,
+   "volume": 311782,
    "change_5d_pct": 39.23,
-   "volume_vs_20d": 2.92,
+   "volume_vs_20d": 2.93,
    "ma": {
     "ma5": 422900.0,
     "vs_ma5_pct": 11.61,
@@ -664,9 +664,9 @@
    "close": 52900.0,
    "prev_close": 47550.0,
    "change_pct": 11.25,
-   "volume": 536945,
+   "volume": 546156,
    "change_5d_pct": 9.98,
-   "volume_vs_20d": 1.97,
+   "volume_vs_20d": 2.01,
    "ma": {
     "ma5": 49830.0,
     "vs_ma5_pct": 6.16,
@@ -700,9 +700,9 @@
    "close": 143200.0,
    "prev_close": 123600.0,
    "change_pct": 15.86,
-   "volume": 1361522,
+   "volume": 1365098,
    "change_5d_pct": 10.75,
-   "volume_vs_20d": 2.19,
+   "volume_vs_20d": 2.2,
    "ma": {
     "ma5": 134060.0,
     "vs_ma5_pct": 6.82,
@@ -732,26 +732,26 @@
   "source": "네이버 금융",
   "market_net_buy_eok": {
    "KOSPI": {
-    "개인": -20691.0,
-    "외국인": 7525.0,
-    "기관계": 8696.0
+    "개인": -20796.0,
+    "외국인": 7634.0,
+    "기관계": 8684.0
    },
    "KOSDAQ": {
-    "개인": -3076.0,
-    "외국인": 1109.0,
-    "기관계": 2123.0
+    "개인": -3064.0,
+    "외국인": 1095.0,
+    "기관계": 2124.0
    }
   },
   "program_eok": {
    "KOSPI": {
     "차익_순매수": 462.0,
-    "비차익_순매수": 3315.0,
-    "전체_순매수": 3776.0
+    "비차익_순매수": 3285.0,
+    "전체_순매수": 3746.0
    },
    "KOSDAQ": {
     "차익_순매수": 97.0,
-    "비차익_순매수": 1665.0,
-    "전체_순매수": 1762.0
+    "비차익_순매수": 1651.0,
+    "전체_순매수": 1748.0
    }
   },
   "breadth": {
@@ -790,18 +790,18 @@
     {
      "code": "000660",
      "name": "SK하이닉스",
-     "close": 1154000.0,
-     "change_pct": 6.36,
-     "trading_value_raw": 3943979.0,
-     "trading_value_text": "3조 9,440억원"
+     "close": 1143000.0,
+     "change_pct": 5.35,
+     "trading_value_raw": 3971567.0,
+     "trading_value_text": "3조 9,716억원"
     },
     {
      "code": "005930",
      "name": "삼성전자",
-     "close": 189600.0,
-     "change_pct": 6.82,
-     "trading_value_raw": 3022756.0,
-     "trading_value_text": "3조 228억원"
+     "close": 188600.0,
+     "change_pct": 6.25,
+     "trading_value_raw": 3038430.0,
+     "trading_value_text": "3조 384억원"
     },
     {
      "code": "069500",
@@ -846,10 +846,10 @@
     {
      "code": "009150",
      "name": "삼성전기",
-     "close": 857000.0,
-     "change_pct": 10.15,
-     "trading_value_raw": 679739.0,
-     "trading_value_text": "6,797억원"
+     "close": 850000.0,
+     "change_pct": 9.25,
+     "trading_value_raw": 683244.0,
+     "trading_value_text": "6,832억원"
     },
     {
      "code": "102110",
@@ -894,10 +894,10 @@
     {
      "code": "005935",
      "name": "삼성전자우",
-     "close": 151000.0,
-     "change_pct": 7.17,
-     "trading_value_raw": 461917.0,
-     "trading_value_text": "4,619억원"
+     "close": 149400.0,
+     "change_pct": 6.03,
+     "trading_value_raw": 464610.0,
+     "trading_value_text": "4,646억원"
     },
     {
      "code": "379810",
@@ -912,122 +912,122 @@
     {
      "code": "030530",
      "name": "원익홀딩스",
-     "close": 31150.0,
-     "change_pct": -2.81,
-     "trading_value_raw": 353220.0,
-     "trading_value_text": "3,532억원"
+     "close": 30900.0,
+     "change_pct": -3.59,
+     "trading_value_raw": 356243.0,
+     "trading_value_text": "3,562억원"
     },
     {
      "code": "108490",
      "name": "로보티즈",
-     "close": 290000.0,
-     "change_pct": 17.89,
-     "trading_value_raw": 210970.0,
-     "trading_value_text": "2,110억원"
+     "close": 289500.0,
+     "change_pct": 17.68,
+     "trading_value_raw": 211964.0,
+     "trading_value_text": "2,120억원"
     },
     {
      "code": "036930",
      "name": "주성엔지니어링",
-     "close": 149400.0,
-     "change_pct": 5.43,
-     "trading_value_raw": 205731.0,
-     "trading_value_text": "2,057억원"
+     "close": 148500.0,
+     "change_pct": 4.8,
+     "trading_value_raw": 207735.0,
+     "trading_value_text": "2,077억원"
     },
     {
      "code": "196170",
      "name": "알테오젠",
-     "close": 159900.0,
-     "change_pct": -5.1,
-     "trading_value_raw": 173429.0,
-     "trading_value_text": "1,734억원"
+     "close": 159800.0,
+     "change_pct": -5.16,
+     "trading_value_raw": 174250.0,
+     "trading_value_text": "1,743억원"
     },
     {
      "code": "090710",
      "name": "휴림로봇",
      "close": 7430.0,
      "change_pct": 29.9,
-     "trading_value_raw": 151777.0,
-     "trading_value_text": "1,518억원"
+     "trading_value_raw": 151866.0,
+     "trading_value_text": "1,519억원"
     },
     {
      "code": "277810",
      "name": "레인보우로보틱스",
-     "close": 465500.0,
-     "change_pct": 15.8,
-     "trading_value_raw": 142253.0,
-     "trading_value_text": "1,423억원"
+     "close": 466500.0,
+     "change_pct": 16.04,
+     "trading_value_raw": 143133.0,
+     "trading_value_text": "1,431억원"
     },
     {
      "code": "498150",
      "name": "엠비디",
      "close": 4205.0,
      "change_pct": -39.93,
-     "trading_value_raw": 131441.0,
-     "trading_value_text": "1,314억원"
-    },
-    {
-     "code": "0035S0",
-     "name": "빅웨이브로보틱스",
-     "close": 21000.0,
-     "change_pct": -3.0,
-     "trading_value_raw": 122552.0,
-     "trading_value_text": "1,226억원"
+     "trading_value_raw": 132047.0,
+     "trading_value_text": "1,320억원"
     },
     {
      "code": "403870",
      "name": "HPSP",
-     "close": 42450.0,
-     "change_pct": 14.11,
-     "trading_value_raw": 122295.0,
-     "trading_value_text": "1,223억원"
+     "close": 41850.0,
+     "change_pct": 12.5,
+     "trading_value_raw": 127354.0,
+     "trading_value_text": "1,274억원"
+    },
+    {
+     "code": "0035S0",
+     "name": "빅웨이브로보틱스",
+     "close": 21050.0,
+     "change_pct": -2.77,
+     "trading_value_raw": 122774.0,
+     "trading_value_text": "1,228억원"
     },
     {
      "code": "282720",
      "name": "금양그린파워",
-     "close": 10890.0,
-     "change_pct": 13.2,
-     "trading_value_raw": 113926.0,
-     "trading_value_text": "1,139억원"
+     "close": 10830.0,
+     "change_pct": 12.58,
+     "trading_value_raw": 114283.0,
+     "trading_value_text": "1,143억원"
     },
     {
      "code": "010170",
      "name": "대한광통신",
-     "close": 14930.0,
-     "change_pct": 7.56,
-     "trading_value_raw": 112629.0,
-     "trading_value_text": "1,126억원"
+     "close": 14890.0,
+     "change_pct": 7.28,
+     "trading_value_raw": 113623.0,
+     "trading_value_text": "1,136억원"
     },
     {
      "code": "222800",
      "name": "심텍",
-     "close": 108700.0,
-     "change_pct": 6.46,
-     "trading_value_raw": 101712.0,
-     "trading_value_text": "1,017억원"
+     "close": 107600.0,
+     "change_pct": 5.39,
+     "trading_value_raw": 102534.0,
+     "trading_value_text": "1,025억원"
     },
     {
      "code": "437730",
      "name": "삼현",
-     "close": 62300.0,
-     "change_pct": 15.58,
-     "trading_value_raw": 97596.0,
-     "trading_value_text": "976억원"
+     "close": 62200.0,
+     "change_pct": 15.4,
+     "trading_value_raw": 97917.0,
+     "trading_value_text": "979억원"
     },
     {
      "code": "471800",
      "name": "에이엘로봇",
-     "close": 11810.0,
-     "change_pct": 3.05,
-     "trading_value_raw": 89479.0,
-     "trading_value_text": "895억원"
+     "close": 11740.0,
+     "change_pct": 2.44,
+     "trading_value_raw": 89704.0,
+     "trading_value_text": "897억원"
     },
     {
      "code": "058610",
      "name": "에스피지",
-     "close": 89700.0,
-     "change_pct": 22.37,
-     "trading_value_raw": 79514.0,
-     "trading_value_text": "795억원"
+     "close": 89400.0,
+     "change_pct": 21.96,
+     "trading_value_raw": 79828.0,
+     "trading_value_text": "798억원"
     }
    ]
   },
@@ -1053,9 +1053,9 @@
    ],
    "integration_KOSPI_deal_raw": {
     "bizdate": "20261124",
-    "personalValue": "-20,691",
-    "foreignValue": "+7,525",
-    "institutionalValue": "+8,696"
+    "personalValue": "-20,796",
+    "foreignValue": "+7,634",
+    "institutionalValue": "+8,684"
    },
    "integration_KOSDAQ": 200,
    "integration_KOSDAQ_keys": [
@@ -1073,9 +1073,9 @@
    ],
    "integration_KOSDAQ_deal_raw": {
     "bizdate": "20261124",
-    "personalValue": "-3,076",
-    "foreignValue": "+1,109",
-    "institutionalValue": "+2,123"
+    "personalValue": "-3,064",
+    "foreignValue": "+1,095",
+    "institutionalValue": "+2,124"
    },
    "trend_005930": 200,
    "trend_005930_sample": {
@@ -1164,16 +1164,16 @@
     },
     "imageCharts": {
      "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up_tablet.png",
-     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/KPI200_end.png",
-     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_transparent.png",
-     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/KPI200_end.png",
-     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/KPI200_end.png",
-     "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/KPI200_end.png",
-     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/KPI200_end.png",
-     "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/KPI200_end.png",
-     "day": "https://financial-vn.pstatic.net/chart/mobile/day/KPI200_end.png",
      "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_end_up.png",
-     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/KPI200_end.png"
+     "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/KPI200_transparent.png",
+     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/KPI200_end.png",
+     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/KPI200_end.png",
+     "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/KPI200_end.png",
+     "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/KPI200_end.png",
+     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/KPI200_end.png",
+     "day": "https://financial-vn.pstatic.net/chart/mobile/day/KPI200_end.png",
+     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/KPI200_end.png",
+     "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/KPI200_end.png"
     }
    },
    "mbasic_FUT": 200,
@@ -1211,17 +1211,17 @@
      "name": "KOSPI"
     },
     "imageCharts": {
-     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/FUT_end.png",
-     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/FUT_end.png",
+     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/FUT_end.png",
+     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/FUT_end.png",
+     "day": "https://financial-vn.pstatic.net/chart/mobile/day/FUT_end.png",
      "areaMonthThree": "https://financial-vn.pstatic.net/chart/mobile/area/month3/FUT_end.png",
+     "candleWeek": "https://financial-vn.pstatic.net/chart/mobile/candle/week/FUT_end.png",
+     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up.png",
      "areaYear": "https://financial-vn.pstatic.net/chart/mobile/area/year/FUT_end.png",
      "areaYearTen": "https://financial-vn.pstatic.net/chart/mobile/area/year10/FUT_end.png",
-     "day_up": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up.png",
-     "candleMonth": "https://financial-vn.pstatic.net/chart/mobile/candle/month/FUT_end.png",
-     "candleDay": "https://financial-vn.pstatic.net/chart/mobile/candle/day/FUT_end.png",
      "transparent": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_transparent.png",
      "day_up_tablet": "https://financial-vn.pstatic.net/chart/mobile/mini/FUT_end_up_tablet.png",
-     "day": "https://financial-vn.pstatic.net/chart/mobile/day/FUT_end.png"
+     "areaYearThree": "https://financial-vn.pstatic.net/chart/mobile/area/year3/FUT_end.png"
     }
    },
    "rank_quantTop_KOSPI": 200,
@@ -1243,7 +1243,7 @@
     "accumulatedTradingVolume": "10,291,538,740",
     "accumulatedTradingValue": "1,238,780",
     "accumulatedTradingValueKrwHangeul": "1조 2,388억원",
-    "localTradedAt": "2026-11-24T17:07:20+09:00",
+    "localTradedAt": "2026-11-24T17:32:20+09:00",
     "marketValue": "8,921",
     "marketValueHangeul": "8,921억원",
     "nav": "N/A",
@@ -1301,10 +1301,10 @@
      "name": "FALLING"
     },
     "fluctuationsRatio": "-39.93",
-    "accumulatedTradingVolume": "24,720,117",
-    "accumulatedTradingValue": "131,441",
-    "accumulatedTradingValueKrwHangeul": "1,314억원",
-    "localTradedAt": "2026-11-24T17:07:21+09:00",
+    "accumulatedTradingVolume": "24,864,256",
+    "accumulatedTradingValue": "132,047",
+    "accumulatedTradingValueKrwHangeul": "1,320억원",
+    "localTradedAt": "2026-11-24T17:32:21+09:00",
     "marketValue": "603",
     "marketValueHangeul": "603억원",
     "nav": "N/A",
@@ -1340,8 +1340,8 @@
     "itemLogoPngUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/png/stock/Stock498150.png",
     "closePriceRaw": "4205",
     "compareToPreviousClosePriceRaw": "-2795",
-    "accumulatedTradingVolumeRaw": "24720117",
-    "accumulatedTradingValueRaw": "131441000000",
+    "accumulatedTradingVolumeRaw": "24864256",
+    "accumulatedTradingValueRaw": "132047000000",
     "marketValueRaw": "60309110790"
    },
    "rank_up_KOSDAQ": 200,
